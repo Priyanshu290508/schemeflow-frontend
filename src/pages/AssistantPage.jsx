@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
 import { api } from '../services/api';
+import { localizeScheme } from '../translations/schemeTranslations';
 import {
   Sparkles,
   Send,
@@ -13,33 +14,51 @@ import {
   Mic
 } from 'lucide-react';
 
+const SAMPLE_PROMPTS_BY_LANG = {
+  en: [
+    "I want a loan of ₹2 Lakh to start a dairy unit in West Bengal",
+    "I am a 28-year-old woman looking for an artisan toolkit grant",
+    "I need a working capital loan for a food processing unit"
+  ],
+  hi: [
+    "मुझे पश्चिम बंगाल में डेयरी शुरू करने के लिए ₹2 लाख का लोन चाहिए",
+    "मैं 28 वर्षीय महिला हूँ और मुझे कारीगर टूलकिट व अनुदान चाहिए",
+    "मुझे खाद्य प्रसंस्करण व बेकरी के लिए कार्यशील पूंजी लोन चाहिए"
+  ],
+  bn: [
+    "আমি পশ্চিমবঙ্গে দুগ্ধ খামার শুরু করার জন্য ২ লাখ টাকার ঋণ চাই",
+    "আমি ২৮ বছর বয়সী মহিলা, কারিগরি টুলকিট অনুদান চাই",
+    "খাদ্য প্রক্রিয়াকরণ ও বেকারির জন্য চলতি মূলধন ঋণ দরকার"
+  ]
+};
+
 export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
   const { lang, t } = useLanguage();
   const { profile = {}, updateProfile } = useProfile();
 
-  const [messages, setMessages] = useState([
-    {
-      sender: 'assistant',
-      text: "Hello! I am your SchemeFlow Assistant. Tell me what you are trying to achieve (for example: *\"I want a loan of ₹2 Lakh to start a poultry or dairy business in West Bengal\"*). I will extract your parameters and recommend verified schemes.",
-      recommendations: []
-    }
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [pendingFacts, setPendingFacts] = useState(null);
   const [pendingProfile, setPendingProfile] = useState(null);
   const [isListening, setIsListening] = useState(false);
 
-  const samplePrompts = [
-    "I want a loan of ₹2 Lakh to start a dairy unit in West Bengal",
-    "I am a 28-year-old woman looking for an artisan toolkit grant",
-    "I need a working capital loan for a food processing unit"
-  ];
+  useEffect(() => {
+    setMessages([
+      {
+        sender: 'assistant',
+        text: t('assistantGreeting') || "Hello! I am your SchemeFlow Assistant. Tell me what you are trying to achieve (for example: *\"I want a loan of ₹2 Lakh to start a poultry or dairy business in West Bengal\"*). I will extract your parameters and recommend verified schemes.",
+        recommendations: []
+      }
+    ]);
+  }, [lang]);
+
+  const samplePrompts = SAMPLE_PROMPTS_BY_LANG[lang] || SAMPLE_PROMPTS_BY_LANG.en;
 
   const handleToggleVoiceInput = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert("Voice speech recognition is not supported in this browser.");
+      alert(t('speechNotSupported') || "Voice speech recognition is not supported in this browser.");
       return;
     }
 
@@ -107,7 +126,9 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
         ...prev,
         {
           sender: 'assistant',
-          text: "We're temporarily unable to load scheme recommendations. Please try again.",
+          text: lang === 'hi' 
+            ? "हम अस्थायी रूप से योजना सिफारिशें लोड करने में असमर्थ हैं। कृपया पुनः प्रयास करें।"
+            : "We're temporarily unable to load scheme recommendations. Please try again.",
           recommendations: []
         }
       ]);
@@ -125,7 +146,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
         ...prev,
         {
           sender: 'assistant',
-          text: "✓ Profile attributes updated and confirmed! Your recommendations have been recalculated with these parameters.",
+          text: t('profileUpdatedAssistant') || "✓ Profile attributes updated and confirmed! Your recommendations have been recalculated with these parameters.",
           recommendations: []
         }
       ]);
@@ -138,13 +159,13 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
       {/* Header */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-          <span className="badge badge-navy">Conversational Discovery & Voice</span>
+          <span className="badge badge-navy">{t('voiceModeBadge') || "Conversational Discovery & Voice"}</span>
         </div>
         <h1 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-main)' }}>
-          SchemeFlow AI Assistant
+          {t('assistantTitle')}
         </h1>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-          Describe your business or loan need in natural language or speech to discover matching schemes.
+          {t('assistantPageDesc') || "Describe your business or loan need in natural language or speech to discover matching schemes."}
         </p>
       </div>
 
@@ -159,14 +180,14 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <UserCheck size={16} color="var(--primary-navy)" />
             <span style={{ fontWeight: 800, fontSize: '13px', color: 'var(--primary-navy)' }}>
-              Extracted Profile Attributes
+              {t('confirmedFacts') || "Extracted Profile Attributes"}
             </span>
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
             {pendingFacts.map((fact, idx) => (
               <div key={idx} style={{
-                background: '#FFFFFF',
+                background: 'var(--bg-card)',
                 borderRadius: 'var(--radius-sm)',
                 padding: '4px 10px',
                 fontSize: '11px',
@@ -184,13 +205,13 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
               className="btn btn-navy btn-sm"
             >
               <CheckCircle2 size={13} />
-              <span>Confirm & Apply to Profile</span>
+              <span>{t('confirmApplyProfile') || "Confirm & Apply to Profile"}</span>
             </button>
             <button
               onClick={() => setPendingFacts(null)}
               className="btn btn-outline btn-sm"
             >
-              <span>Dismiss</span>
+              <span>{t('dismiss') || "Dismiss"}</span>
             </button>
           </div>
         </div>
@@ -198,7 +219,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
 
       {/* Chat Messages Log */}
       <div style={{
-        background: '#FFFFFF',
+        background: 'var(--bg-card)',
         border: '1px solid var(--border-card)',
         borderRadius: 'var(--radius-xl)',
         padding: '24px',
@@ -265,48 +286,51 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
                   flexDirection: 'column',
                   gap: '8px'
                 }}>
-                  {msg.recommendations.map(rec => (
-                    <div
-                      key={rec.scheme_id}
-                      style={{
-                        background: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: 'var(--radius-md)',
-                        padding: '12px 14px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '12px'
-                      }}
-                    >
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: '13px', color: 'var(--text-main)' }}>
-                          {rec.scheme_name}
+                  {msg.recommendations.map(rawRec => {
+                    const rec = localizeScheme(rawRec, lang);
+                    return (
+                      <div
+                        key={rec.scheme_id}
+                        style={{
+                          background: 'var(--bg-secondary)',
+                          border: '1px solid var(--border-subtle)',
+                          borderRadius: 'var(--radius-md)',
+                          padding: '12px 14px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: '12px'
+                        }}
+                      >
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '13px', color: 'var(--text-main)' }}>
+                            {rec.scheme_name}
+                          </div>
+                          <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                            {rec.summary}
+                          </div>
                         </div>
-                        <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                          {rec.summary}
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span className="badge badge-orange" style={{ fontSize: '11px' }}>
+                            {rec.match_score}%
+                          </span>
+
+                          <button
+                            onClick={() => {
+                              if (typeof setSelectedSchemeId === 'function') setSelectedSchemeId(rec.scheme_id);
+                              if (typeof setActivePage === 'function') setActivePage('detail');
+                            }}
+                            className="btn btn-navy btn-sm"
+                            style={{ padding: '4px 10px', fontSize: '11px' }}
+                          >
+                            <span>{t('inspect') || "Inspect"}</span>
+                            <ArrowRight size={12} />
+                          </button>
                         </div>
                       </div>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span className="badge badge-orange" style={{ fontSize: '11px' }}>
-                          {rec.match_score}%
-                        </span>
-
-                        <button
-                          onClick={() => {
-                            if (typeof setSelectedSchemeId === 'function') setSelectedSchemeId(rec.scheme_id);
-                            if (typeof setActivePage === 'function') setActivePage('detail');
-                          }}
-                          className="btn btn-navy btn-sm"
-                          style={{ padding: '4px 10px', fontSize: '11px' }}
-                        >
-                          <span>Inspect</span>
-                          <ArrowRight size={12} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
 
@@ -317,7 +341,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary-navy)', fontSize: '12px' }}>
             <Bot size={16} />
-            <span>Consulting official ministry guidelines...</span>
+            <span>{t('consultingGuidelines') || "Consulting official ministry guidelines..."}</span>
           </div>
         )}
       </div>
@@ -355,7 +379,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
           style={{ flex: 1, padding: '12px 18px', fontSize: '14px', borderRadius: 'var(--radius-pill)' }}
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          placeholder={isListening ? "Listening... speak now" : "Ask or describe your situation..."}
+          placeholder={isListening ? (t('listeningNow') || "Listening... speak now") : (t('assistantPlaceholder') || "Ask or describe your situation...")}
         />
 
         <button
@@ -373,7 +397,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
             justifyContent: 'center',
             cursor: 'pointer'
           }}
-          title="Voice Mic Input"
+          title={t('voiceMicTooltip') || "Voice Mic Input"}
         >
           <Mic size={18} />
         </button>
@@ -385,7 +409,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
           style={{ padding: '0 20px' }}
         >
           <Send size={15} />
-          <span>Send</span>
+          <span>{t('btnSend') || "Send"}</span>
         </button>
       </form>
 

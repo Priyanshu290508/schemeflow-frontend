@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import { Layers, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
 
-const STAGES = [
-  "Reading profile & normalized attributes",
-  "Checking deterministic eligibility rules",
-  "Evaluating central & state scheme repositories",
-  "Calculating weighted compatibility scores",
-  "Synthesizing explainable match breakdowns"
-];
-
 export const StagedLoader = ({ onComplete }) => {
+  const { t } = useLanguage();
   const [currentStage, setCurrentStage] = useState(0);
+
+  const STAGES = [
+    t('stage1') || "Reading profile & normalized attributes",
+    t('stage2') || "Checking deterministic eligibility rules",
+    t('stage3') || "Evaluating central & state scheme repositories",
+    t('stage4') || "Calculating weighted compatibility scores",
+    t('stage5') || "Synthesizing explainable match breakdowns"
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,10 +58,10 @@ export const StagedLoader = ({ onComplete }) => {
       </div>
 
       <h3 style={{ fontSize: '24px', marginBottom: '8px', color: 'var(--text-main)' }}>
-        Evaluating Scheme Eligibility
+        {t('loaderTitle') || "Evaluating Scheme Eligibility"}
       </h3>
       <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '32px', maxWidth: '440px' }}>
-        Processing rules deterministically across official Ministry guidelines...
+        {t('loaderSubtitle') || "Processing rules deterministically across official Ministry guidelines..."}
       </p>
 
       {/* Stage Progression List */}

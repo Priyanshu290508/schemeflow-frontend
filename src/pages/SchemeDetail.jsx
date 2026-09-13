@@ -4,6 +4,7 @@ import { useProfile } from '../context/ProfileContext';
 import { api } from '../services/api';
 import { CriterionRow } from '../components/CriterionRow';
 import { DocumentChecklist } from '../components/DocumentChecklist';
+import { localizeScheme, localizeCategory } from '../translations/schemeTranslations';
 import {
   ArrowLeft,
   Building2,
@@ -27,7 +28,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
   const { lang, t } = useLanguage();
   const { profile = {}, savedSchemeIds = [], toggleSaveScheme } = useProfile();
   
-  const [evaluation, setEvaluation] = useState(null);
+  const [rawEvaluation, setRawEvaluation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
@@ -36,7 +37,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
       setLoading(true);
       api.evaluateSingleScheme(schemeId, profile)
         .then(data => {
-          setEvaluation(data);
+          setRawEvaluation(data);
           setLoading(false);
         })
         .catch(err => {
@@ -45,6 +46,8 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
         });
     }
   }, [schemeId, profile]);
+
+  const evaluation = rawEvaluation ? localizeScheme(rawEvaluation, lang) : null;
 
   const handleToggleAudio = () => {
     if (!('speechSynthesis' in window) || !evaluation) {
@@ -59,7 +62,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
     }
 
     const whyList = Array.isArray(evaluation.why_this_scheme) ? evaluation.why_this_scheme.slice(0, 3).join('. ') : '';
-    const textToSpeak = `${evaluation.scheme_name}. ${evaluation.summary}. Maximum benefit: ${evaluation.max_benefit}. Key criteria: ${whyList}. Application window: ${evaluation.deadline}.`;
+    const textToSpeak = `${evaluation.scheme_name}. ${evaluation.summary}. Maximum benefit: ${evaluation.max_benefit}.`;
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
     if (lang === 'hi') utterance.lang = 'hi-IN';
     else if (lang === 'bn') utterance.lang = 'bn-IN';
@@ -87,7 +90,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
       <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
         <h3>Scheme details not found</h3>
         <button onClick={() => setActivePage('dashboard')} className="btn btn-navy btn-sm" style={{ marginTop: '12px' }}>
-          Back to Dashboard
+          {t('backToSchemes')}
         </button>
       </div>
     );
@@ -105,7 +108,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
           className="btn btn-outline btn-sm"
         >
           <ArrowLeft size={14} />
-          <span>Back to Recommendations</span>
+          <span>{t('backToSchemes')}</span>
         </button>
 
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -114,7 +117,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
             className="btn btn-secondary btn-sm"
           >
             {isPlayingAudio ? <VolumeX size={14} /> : <Volume2 size={14} />}
-            <span>{isPlayingAudio ? 'Stop Audio' : 'Listen'}</span>
+            <span>{isPlayingAudio ? t('stopAudio') : t('listenAudio')}</span>
           </button>
 
           <button
@@ -122,17 +125,17 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
             className="btn btn-secondary btn-sm"
           >
             <Bookmark size={14} fill={isSaved ? 'var(--primary-orange)' : 'none'} />
-            <span>{isSaved ? 'Bookmarked' : 'Save'}</span>
+            <span>{isSaved ? t('schemeSaved') : t('schemeSave')}</span>
           </button>
         </div>
       </div>
 
       {/* Scheme Header Card */}
-      <div className="card" style={{ padding: '28px', background: '#FFFFFF' }}>
+      <div className="card" style={{ padding: '28px', background: 'var(--bg-card)' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap', marginBottom: '16px' }}>
           <div style={{ flex: 1, minWidth: '260px' }}>
             <span className="badge badge-navy" style={{ marginBottom: '8px' }}>
-              {evaluation.category}
+              {localizeCategory(evaluation.category, lang)}
             </span>
 
             <h1 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-main)', marginBottom: '4px' }}>
@@ -148,11 +151,11 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', fontSize: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'var(--primary-orange-light)', color: '#C27000', padding: '4px 10px', borderRadius: 'var(--radius-pill)', fontWeight: 700 }}>
                 <Calendar size={13} />
-                <span>Deadline: {evaluation.deadline}</span>
+                <span>{t('deadlineLabel')} {evaluation.deadline}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'var(--palette-sand-light)', color: 'var(--text-main)', padding: '4px 10px', borderRadius: 'var(--radius-pill)', fontWeight: 700 }}>
                 <Clock size={13} />
-                <span>Processing: {evaluation.processing_timeline}</span>
+                <span>{t('timelineLabel')} {evaluation.processing_timeline}</span>
               </div>
             </div>
           </div>
@@ -169,7 +172,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
               {evaluation.match_score}%
             </div>
             <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', marginTop: '4px' }}>
-              {evaluation.match_label}
+              {evaluation.match_label || (evaluation.mandatory_eligible !== false ? (lang === 'hi' ? 'पात्र (Eligible)' : 'Eligible') : 'Ineligible')}
             </div>
           </div>
         </div>
@@ -189,7 +192,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--warning)', fontWeight: 800, fontSize: '13px', marginBottom: '6px' }}>
             <Sparkles size={15} />
-            <span>Proactive Eligibility Optimization Advice:</span>
+            <span>{t('featureNearMissTitle')}:</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12px', color: 'var(--text-main)' }}>
             {evaluation.near_miss_tips.map((tip, idx) => (
@@ -202,7 +205,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
       {/* Eligibility Breakdown */}
       <div>
         <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '14px', color: 'var(--text-main)' }}>
-          Eligibility Criteria Analysis
+          {t('criteriaBreakdown')}
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {evaluation.criteria_results?.map((crit, idx) => (
@@ -215,7 +218,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
       {evaluation.benefits && evaluation.benefits.length > 0 && (
         <div>
           <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '14px', color: 'var(--text-main)' }}>
-            Key Benefits & Subsidies
+            {t('benefitsOffered')}
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
             {evaluation.benefits.map((b, idx) => (
@@ -240,7 +243,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
       {/* Document Checklist */}
       <div>
         <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '14px', color: 'var(--text-main)' }}>
-          Document Readiness
+          {t('documentChecklist')}
         </h3>
         <DocumentChecklist
           schemeId={evaluation.scheme_id}
@@ -261,10 +264,10 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
       }}>
         <div>
           <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-navy)' }}>
-            Official Application Portal
+            {t('applyOfficial')}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
-            Redirects directly to verified government e-portal.
+            {t('footerDisclaimer')}
           </div>
         </div>
 
@@ -276,7 +279,7 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
             className="btn btn-primary"
             style={{ padding: '8px 20px' }}
           >
-            <span>Proceed to Portal</span>
+            <span>{t('applyNow')}</span>
             <ExternalLink size={14} />
           </a>
         )}

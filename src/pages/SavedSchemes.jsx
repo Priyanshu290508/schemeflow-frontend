@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
 import { api } from '../services/api';
 import { DocumentChecklist } from '../components/DocumentChecklist';
+import { localizeScheme, localizeCategory } from '../translations/schemeTranslations';
 import {
   Bookmark,
   Trash2,
@@ -14,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const SavedSchemes = ({ setActivePage, setSelectedSchemeId }) => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { savedSchemeIds, toggleSaveScheme, checkedDocuments } = useProfile();
   
   const [schemes, setSchemes] = useState([]);
@@ -35,48 +36,47 @@ export const SavedSchemes = ({ setActivePage, setSelectedSchemeId }) => {
   }, [savedSchemeIds]);
 
   return (
-    <div className="section" style={{ paddingTop: '36px' }}>
+    <div className="section" style={{ paddingTop: '20px' }}>
       <div className="container" style={{ maxWidth: '960px' }}>
         
         {/* Header */}
-        <div style={{ marginBottom: '32px' }}>
+        <div style={{ marginBottom: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <Bookmark size={20} color="var(--primary-cyan)" />
-            <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--primary-bright)', textTransform: 'uppercase' }}>
-              Personal Shortlist & Readiness
+            <Bookmark size={20} color="var(--primary-orange)" />
+            <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--primary-navy)', textTransform: 'uppercase' }}>
+              {t('savedSchemesTitle')}
             </span>
           </div>
-          <h1 style={{ fontSize: '28px', marginBottom: '6px' }}>{t('navSaved')}</h1>
-          <p style={{ fontSize: '15px' }}>
-            Track document readiness and prepare your applications for your shortlisted government schemes.
+          <h1 style={{ fontSize: '26px', marginBottom: '6px', fontWeight: 800, color: 'var(--text-main)' }}>{t('navSaved')}</h1>
+          <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+            {t('savedSchemesSubtitle')}
           </p>
         </div>
 
         {/* Schemes List */}
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '60px 0' }}>
-            <div className="animate-glow" style={{ color: 'var(--primary-bright)' }}>
-              Loading your saved schemes...
-            </div>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--primary-navy)' }}>
+            <div>Loading saved schemes...</div>
           </div>
         ) : schemes.length === 0 ? (
           <div className="card" style={{ textAlign: 'center', padding: '60px 24px' }}>
             <Bookmark size={42} color="var(--text-muted)" style={{ margin: '0 auto 16px auto' }} />
-            <h3 style={{ marginBottom: '8px' }}>No Saved Schemes Yet</h3>
-            <p style={{ maxWidth: '420px', margin: '0 auto 24px auto', fontSize: '14px' }}>
-              Explore the recommendations dashboard or ask the AI assistant to shortlist relevant schemes.
+            <h3 style={{ marginBottom: '8px' }}>{t('emptySchemesTitle')}</h3>
+            <p style={{ maxWidth: '420px', margin: '0 auto 24px auto', fontSize: '13px', color: 'var(--text-muted)' }}>
+              {t('noSavedSchemes')}
             </p>
             <button
               onClick={() => setActivePage('dashboard')}
               className="btn btn-primary btn-sm"
             >
               <Compass size={16} />
-              <span>Explore Recommendations</span>
+              <span>{t('ctaFindSchemes')}</span>
             </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            {schemes.map(scheme => {
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {schemes.map(rawScheme => {
+              const scheme = localizeScheme(rawScheme, lang);
               const docs = scheme.documents || [];
               const checkedList = checkedDocuments[scheme.id] || [];
               const readyCount = docs.filter(d => checkedList.includes(d.name)).length;
@@ -84,21 +84,21 @@ export const SavedSchemes = ({ setActivePage, setSelectedSchemeId }) => {
               const percent = totalDocs > 0 ? Math.round((readyCount / totalDocs) * 100) : 100;
 
               return (
-                <div key={scheme.id} className="card" style={{ padding: '28px' }}>
+                <div key={scheme.id} className="card" style={{ padding: '24px' }}>
                   
                   {/* Scheme Header */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '16px' }}>
-                    <div>
+                    <div style={{ flex: 1, minWidth: '260px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                        <span className="badge badge-cyan">{scheme.category}</span>
+                        <span className="badge badge-navy">{localizeCategory(scheme.category, lang)}</span>
                         <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{scheme.department}</span>
                       </div>
 
-                      <h3 style={{ fontSize: '20px', color: 'var(--text-main)', marginBottom: '6px' }}>
+                      <h3 style={{ fontSize: '18px', color: 'var(--text-main)', marginBottom: '6px', fontWeight: 800 }}>
                         {scheme.name}
                       </h3>
 
-                      <p style={{ fontSize: '14px', lineHeight: 1.5, margin: 0 }}>
+                      <p style={{ fontSize: '13px', lineHeight: 1.5, color: 'var(--text-secondary)', margin: 0 }}>
                         {scheme.summary}
                       </p>
                     </div>
@@ -106,22 +106,22 @@ export const SavedSchemes = ({ setActivePage, setSelectedSchemeId }) => {
                     <button
                       onClick={() => toggleSaveScheme(scheme.id)}
                       className="btn btn-outline btn-sm"
-                      style={{ color: 'var(--danger)', borderColor: 'rgba(255,111,145,0.3)' }}
+                      style={{ color: 'var(--danger)', borderColor: 'rgba(239, 68, 68, 0.3)' }}
                     >
                       <Trash2 size={14} />
-                      <span>Remove</span>
+                      <span>{t('removeCompare')}</span>
                     </button>
                   </div>
 
                   {/* Interactive Document Checklist embedded */}
-                  <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+                  <div style={{ marginTop: '16px', marginBottom: '16px' }}>
                     <DocumentChecklist schemeId={scheme.id} documents={docs} />
                   </div>
 
                   {/* Action buttons */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px', borderTop: '1px solid var(--border-subtle)', paddingTop: '16px' }}>
-                    <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                      Max Benefit: <strong style={{ color: 'var(--text-main)' }}>{scheme.max_benefit || 'Standard Subsidy'}</strong>
+                    <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                      {t('maxProjectAssist')}: <strong style={{ color: 'var(--primary-orange)' }}>{scheme.max_benefit || 'Standard Subsidy'}</strong>
                     </span>
 
                     <div style={{ display: 'flex', gap: '10px' }}>
@@ -132,7 +132,7 @@ export const SavedSchemes = ({ setActivePage, setSelectedSchemeId }) => {
                         }}
                         className="btn btn-secondary btn-sm"
                       >
-                        <span>View Full Rules</span>
+                        <span>{t('viewDetails')}</span>
                         <ArrowRight size={14} />
                       </button>
 
@@ -143,7 +143,7 @@ export const SavedSchemes = ({ setActivePage, setSelectedSchemeId }) => {
                           rel="noreferrer"
                           className="btn btn-primary btn-sm"
                         >
-                          <span>Apply Online</span>
+                          <span>{t('applyNow')}</span>
                           <ExternalLink size={13} />
                         </a>
                       )}

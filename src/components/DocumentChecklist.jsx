@@ -1,8 +1,10 @@
 import React from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
 import { CheckSquare, Square, FileCheck, AlertCircle, Info } from 'lucide-react';
 
 export const DocumentChecklist = ({ schemeId, documents = [] }) => {
+  const { lang, t } = useLanguage();
   const { checkedDocuments, toggleDocumentCheck } = useProfile();
   const checkedForScheme = checkedDocuments[schemeId] || [];
 
@@ -25,15 +27,17 @@ export const DocumentChecklist = ({ schemeId, documents = [] }) => {
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <FileCheck size={20} color="var(--primary-cyan)" />
-            <h3 style={{ fontSize: '18px', color: 'var(--text-main)' }}>Application Readiness</h3>
+            <FileCheck size={20} color="var(--primary-navy)" />
+            <h3 style={{ fontSize: '18px', color: 'var(--text-main)', fontWeight: 800 }}>
+              {t('readinessScore') || "Application Readiness"}
+            </h3>
           </div>
           <span style={{
             fontSize: '14px',
             fontWeight: 700,
-            color: readinessPercent === 100 ? 'var(--success)' : 'var(--primary-bright)'
+            color: readinessPercent === 100 ? 'var(--success)' : 'var(--primary-orange)'
           }}>
-            {readyDocs} of {totalDocs} Ready ({readinessPercent}%)
+            {readyDocs} / {totalDocs} {t('readyOfTotal') || "Ready"} ({readinessPercent}%)
           </span>
         </div>
 
@@ -41,14 +45,14 @@ export const DocumentChecklist = ({ schemeId, documents = [] }) => {
         <div style={{
           width: '100%',
           height: '8px',
-          background: 'rgba(84, 210, 255, 0.1)',
+          background: 'var(--bg-secondary)',
           borderRadius: '4px',
           overflow: 'hidden'
         }}>
           <div style={{
             width: `${readinessPercent}%`,
             height: '100%',
-            background: readinessPercent === 100 ? 'var(--success)' : 'var(--primary-gradient)',
+            background: readinessPercent === 100 ? 'var(--success)' : 'var(--primary-navy)',
             borderRadius: '4px',
             transition: 'width 0.4s ease'
           }} />
@@ -57,7 +61,13 @@ export const DocumentChecklist = ({ schemeId, documents = [] }) => {
         {readyMandatoryCount < mandatoryCount && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '10px', fontSize: '12px', color: 'var(--warning)' }}>
             <AlertCircle size={14} />
-            <span>Missing {mandatoryCount - readyMandatoryCount} mandatory document(s) before applying.</span>
+            <span>
+              {lang === 'hi' 
+                ? `आवेदन करने से पहले ${mandatoryCount - readyMandatoryCount} अनिवार्य दस्तावेज शेष हैं।`
+                : (lang === 'bn'
+                  ? `আবেদন করার পূর্বে ${mandatoryCount - readyMandatoryCount} টি বাধ্যতামূলক নথি প্রস্তুত করতে হবে।`
+                  : `Missing ${mandatoryCount - readyMandatoryCount} mandatory document(s) before applying.`)}
+            </span>
           </div>
         )}
       </div>
@@ -80,7 +90,7 @@ export const DocumentChecklist = ({ schemeId, documents = [] }) => {
                 border: '1px solid ' + (isChecked ? 'rgba(53, 211, 154, 0.3)' : 'var(--border-subtle)'),
                 borderRadius: 'var(--radius-md)',
                 cursor: 'pointer',
-                transition: 'all var(--transition-fast)'
+                transition: 'all 0.2s ease'
               }}
             >
               <div style={{ marginTop: '2px', color: isChecked ? 'var(--success)' : 'var(--text-muted)' }}>
@@ -90,15 +100,14 @@ export const DocumentChecklist = ({ schemeId, documents = [] }) => {
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
                   <span style={{
-                    fontWeight: 600,
+                    fontWeight: 700,
                     fontSize: '14px',
-                    color: isChecked ? 'var(--text-main)' : 'var(--text-secondary)',
-                    textDecoration: isChecked ? 'none' : 'none'
+                    color: isChecked ? 'var(--text-main)' : 'var(--text-secondary)'
                   }}>
                     {doc.name}
                   </span>
                   <span className={`badge ${doc.is_mandatory ? 'badge-danger' : 'badge-neutral'}`} style={{ fontSize: '11px' }}>
-                    {doc.is_mandatory ? 'Required' : 'Optional'}
+                    {doc.is_mandatory ? (t('mandatory') || 'Required') : (t('optional') || 'Optional')}
                   </span>
                 </div>
 
@@ -115,8 +124,14 @@ export const DocumentChecklist = ({ schemeId, documents = [] }) => {
 
       {/* Checklist Tip */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '16px', fontSize: '12px', color: 'var(--text-muted)' }}>
-        <Info size={14} color="var(--primary-cyan)" />
-        <span>Click any document to mark it as ready in your personal checklist.</span>
+        <Info size={14} color="var(--primary-navy)" />
+        <span>
+          {lang === 'hi' 
+            ? "अपनी व्यक्तिगत चेकलिस्ट में तैयार के रूप में चिह्नित करने के लिए किसी भी दस्तावेज़ पर क्लिक करें।"
+            : (lang === 'bn'
+              ? "আপনার তালিকায় প্রস্তুত হিসেবে চিহ্নিত করতে যেকোনো নথিপত্রে ক্লিক করুন।"
+              : "Click any document to mark it as ready in your personal checklist.")}
+        </span>
       </div>
 
     </div>

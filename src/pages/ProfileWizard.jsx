@@ -3,6 +3,12 @@ import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
 import { StagedLoader } from '../components/StagedLoader';
 import {
+  localizeSector,
+  localizeEmployment,
+  localizeBusinessStatus,
+  localizeSocialCategory
+} from '../translations/schemeTranslations';
+import {
   User,
   IndianRupee,
   Briefcase,
@@ -40,7 +46,7 @@ const BUSINESS_SECTORS = [
 ];
 
 export const ProfileWizard = ({ setActivePage }) => {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const { profile, updateProfile, refreshRecommendations } = useProfile();
   
   const [currentStep, setCurrentStep] = useState(1);
@@ -106,12 +112,12 @@ export const ProfileWizard = ({ setActivePage }) => {
           }}>
             <Sparkles size={14} color="var(--primary-bright)" />
             <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary-bright)', textTransform: 'uppercase' }}>
-              Progressive Eligibility Engine
+              {t('progressiveEngine') || "Progressive Eligibility Engine"}
             </span>
           </div>
           <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>{t('wizardTitle')}</h1>
           <p style={{ fontSize: '15px' }}>
-            Enter your situation below to run deterministic rule matching across all active government schemes.
+            {t('wizardSubtitleLong') || "Enter your situation below to run deterministic rule matching across all active government schemes."}
           </p>
         </div>
 
@@ -169,7 +175,7 @@ export const ProfileWizard = ({ setActivePage }) => {
             <div>
               <h3 style={{ fontSize: '20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <User size={20} color="var(--primary-cyan)" />
-                <span>Personal & Location Attributes</span>
+                <span>{t('wizardPersonalHeader') || "Personal & Location Attributes"}</span>
               </h3>
 
               <div className="grid-2">
@@ -184,19 +190,19 @@ export const ProfileWizard = ({ setActivePage }) => {
                     onChange={(e) => handleChange('age', parseInt(e.target.value) || '')}
                     placeholder="e.g. 28"
                   />
-                  <div className="form-helper">Most youth schemes apply between 18–45 years.</div>
+                  <div className="form-helper">{t('ageHelper') || "Most youth schemes apply between 18–45 years."}</div>
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">{t('labelGender')}</label>
                   <select
                     className="form-select"
-                    value={formData.gender || 'Any'}
+                    value={formData.gender || 'Female'}
                     onChange={(e) => handleChange('gender', e.target.value)}
                   >
-                    <option value="Female">Female (Eligible for Stand-Up India & Women Subsidies)</option>
-                    <option value="Male">Male</option>
-                    <option value="Other">Other</option>
+                    <option value="Female">{t('femaleSubsidyHint') || "Female (Eligible for Stand-Up India & Women Subsidies)"}</option>
+                    <option value="Male">{t('optionMale') || "Male"}</option>
+                    <option value="Other">{t('optionOther') || "Other"}</option>
                   </select>
                 </div>
               </div>
@@ -234,13 +240,13 @@ export const ProfileWizard = ({ setActivePage }) => {
                   value={formData.category || 'General'}
                   onChange={(e) => handleChange('category', e.target.value)}
                 >
-                  <option value="General">General Category</option>
-                  <option value="OBC">OBC (Other Backward Classes)</option>
-                  <option value="SC">SC (Scheduled Caste)</option>
-                  <option value="ST">ST (Scheduled Tribe)</option>
-                  <option value="Minority">Minority Community</option>
+                  <option value="General">{localizeSocialCategory('General', lang)}</option>
+                  <option value="OBC">{localizeSocialCategory('OBC', lang)}</option>
+                  <option value="SC">{localizeSocialCategory('SC', lang)}</option>
+                  <option value="ST">{localizeSocialCategory('ST', lang)}</option>
+                  <option value="Minority">{localizeSocialCategory('Minority', lang)}</option>
                 </select>
-                <div className="form-helper">Special categories receive higher subsidy rates (up to 35% under PMEGP).</div>
+                <div className="form-helper">{t('categoryHelper') || "Special categories receive higher subsidy rates (up to 35% under PMEGP)."}</div>
               </div>
             </div>
           )}
@@ -250,7 +256,7 @@ export const ProfileWizard = ({ setActivePage }) => {
             <div>
               <h3 style={{ fontSize: '20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <IndianRupee size={20} color="var(--primary-cyan)" />
-                <span>Financial & Employment Situation</span>
+                <span>{t('wizardFinancialHeader') || "Financial & Employment Situation"}</span>
               </h3>
 
               <div className="form-group">
@@ -263,7 +269,7 @@ export const ProfileWizard = ({ setActivePage }) => {
                   onChange={(e) => handleChange('annual_income', parseFloat(e.target.value) || '')}
                   placeholder="e.g. 250000"
                 />
-                <div className="form-helper">Enter total annual household income in Rupees (e.g. ₹2,50,000).</div>
+                <div className="form-helper">{t('incomeHelper') || "Enter total annual household income in Rupees (e.g. ₹2,50,000)."}</div>
               </div>
 
               <div className="form-group">
@@ -273,12 +279,12 @@ export const ProfileWizard = ({ setActivePage }) => {
                   value={formData.employment_status || 'Self-employed'}
                   onChange={(e) => handleChange('employment_status', e.target.value)}
                 >
-                  <option value="Self-employed">Self-employed / Entrepreneur</option>
-                  <option value="Unemployed">Unemployed Youth</option>
-                  <option value="Farmer">Farmer / Cultivator</option>
-                  <option value="Business Owner">Existing Business Owner</option>
-                  <option value="Student">Student / Researcher</option>
-                  <option value="Salaried">Salaried</option>
+                  <option value="Self-employed">{localizeEmployment('Self-employed', lang)}</option>
+                  <option value="Unemployed">{localizeEmployment('Unemployed', lang)}</option>
+                  <option value="Farmer">{localizeEmployment('Farmer', lang)}</option>
+                  <option value="Business Owner">{localizeEmployment('Business Owner', lang)}</option>
+                  <option value="Student">{localizeEmployment('Student', lang)}</option>
+                  <option value="Salaried">{localizeEmployment('Salaried', lang)}</option>
                 </select>
               </div>
 
@@ -294,7 +300,7 @@ export const ProfileWizard = ({ setActivePage }) => {
               }}>
                 <Info size={20} color="var(--primary-cyan)" />
                 <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                  Income thresholds are only checked for schemes requiring income caps (e.g., specific subsidies and welfare DBT).
+                  {t('incomeInfoBanner') || "Income thresholds are only checked for schemes requiring income caps (e.g., specific subsidies and welfare DBT)."}
                 </span>
               </div>
             </div>
@@ -305,7 +311,7 @@ export const ProfileWizard = ({ setActivePage }) => {
             <div>
               <h3 style={{ fontSize: '20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Briefcase size={20} color="var(--primary-cyan)" />
-                <span>Enterprise & Financial Requirement</span>
+                <span>{t('wizardEnterpriseHeader') || "Enterprise & Financial Requirement"}</span>
               </h3>
 
               <div className="form-group">
@@ -316,7 +322,7 @@ export const ProfileWizard = ({ setActivePage }) => {
                   onChange={(e) => handleChange('business_type', e.target.value)}
                 >
                   {BUSINESS_SECTORS.map((sec, i) => (
-                    <option key={i} value={sec}>{sec}</option>
+                    <option key={i} value={sec}>{localizeSector(sec, lang)}</option>
                   ))}
                 </select>
               </div>
@@ -329,8 +335,8 @@ export const ProfileWizard = ({ setActivePage }) => {
                     value={formData.business_status || 'New / Proposed'}
                     onChange={(e) => handleChange('business_status', e.target.value)}
                   >
-                    <option value="New / Proposed">New / Proposed Project (Greenfield)</option>
-                    <option value="Existing">Existing Business (Expansion / Upgrade)</option>
+                    <option value="New / Proposed">{localizeBusinessStatus('New / Proposed', lang)}</option>
+                    <option value="Existing">{localizeBusinessStatus('Existing', lang)}</option>
                   </select>
                 </div>
 
@@ -344,7 +350,7 @@ export const ProfileWizard = ({ setActivePage }) => {
                     onChange={(e) => handleChange('loan_required', parseFloat(e.target.value) || '')}
                     placeholder="e.g. 200000"
                   />
-                  <div className="form-helper">Desired loan or funding support amount.</div>
+                  <div className="form-helper">{t('loanHelper') || "Desired loan or funding support amount."}</div>
                 </div>
               </div>
             </div>
@@ -355,7 +361,7 @@ export const ProfileWizard = ({ setActivePage }) => {
             <div>
               <h3 style={{ fontSize: '20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <CheckCircle2 size={20} color="var(--success)" />
-                <span>Profile Review & Evaluation Summary</span>
+                <span>{t('wizardReviewHeader') || "Profile Review & Evaluation Summary"}</span>
               </h3>
 
               <div style={{
@@ -369,33 +375,33 @@ export const ProfileWizard = ({ setActivePage }) => {
                 marginBottom: '24px'
               }}>
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Age & Gender</span>
-                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{formData.age} yrs • {formData.gender}</div>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t('reviewAgeGender') || "Age & Gender"}</span>
+                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{formData.age} {t('yrs')} • {formData.gender === 'Female' ? t('optionFemale') : formData.gender === 'Male' ? t('optionMale') : formData.gender}</div>
                 </div>
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Location</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t('reviewLocation') || "Location"}</span>
                   <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{formData.district ? `${formData.district}, ` : ''}{formData.state}</div>
                 </div>
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Household Income</span>
-                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>₹{Number(formData.annual_income || 0).toLocaleString('en-IN')}/yr</div>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t('reviewIncome') || "Household Income"}</span>
+                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>₹{Number(formData.annual_income || 0).toLocaleString('en-IN')}/{t('yr')}</div>
                 </div>
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Business Sector</span>
-                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{formData.business_type}</div>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t('reviewSector') || "Business Sector"}</span>
+                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{localizeSector(formData.business_type, lang)}</div>
                 </div>
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Stage</span>
-                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{formData.business_status}</div>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t('reviewStage') || "Stage"}</span>
+                  <div style={{ fontWeight: 600, color: 'var(--text-main)' }}>{localizeBusinessStatus(formData.business_status, lang)}</div>
                 </div>
                 <div>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Target Loan Amount</span>
+                  <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>{t('reviewLoan') || "Target Loan Amount"}</span>
                   <div style={{ fontWeight: 600, color: 'var(--primary-bright)' }}>₹{Number(formData.loan_required || 0).toLocaleString('en-IN')}</div>
                 </div>
               </div>
 
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                Clicking <strong>Find Matching Schemes</strong> will execute the deterministic rule engine to check age limits, sector guidelines, state coverage, and financial eligibility.
+                {t('reviewDisclaimer') || "Clicking Find Matching Schemes will execute the deterministic rule engine to check age limits, sector guidelines, state coverage, and financial eligibility."}
               </p>
             </div>
           )}
@@ -430,7 +436,7 @@ export const ProfileWizard = ({ setActivePage }) => {
                 title="Save profile progress"
               >
                 <Save size={15} />
-                <span>{saveSuccess ? 'Saved!' : t('btnSaveProfile')}</span>
+                <span>{saveSuccess ? (t('savedSuccess') || 'Saved!') : t('btnSaveProfile')}</span>
               </button>
 
               <button

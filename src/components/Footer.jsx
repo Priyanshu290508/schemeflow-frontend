@@ -41,24 +41,24 @@ export const Footer = ({ setActivePage }) => {
               </span>
             </div>
             <p style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '16px' }}>
-              Personalized, deterministic government scheme discovery and explainability platform built on official Ministry data.
+              {t('footerDesc')}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--success)', fontSize: '13px', fontWeight: 600 }}>
               <ShieldCheck size={16} />
-              <span>Grounded Rules & Verified Data</span>
+              <span>{t('footerVerified')}</span>
             </div>
           </div>
 
           {/* Core Modules */}
           <div>
-            <h4 style={{ color: 'var(--text-main)', marginBottom: '16px', fontSize: '15px' }}>Platform Capabilities</h4>
+            <h4 style={{ color: 'var(--text-main)', marginBottom: '16px', fontSize: '15px' }}>{t('footerCapabilities')}</h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '14px' }}>
               <li>
                 <button 
                   onClick={() => { setActivePage('wizard'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left', padding: 0 }}
                 >
-                  Personalized Eligibility Wizard
+                  {t('footerWizard')}
                 </button>
               </li>
               <li>
@@ -66,7 +66,7 @@ export const Footer = ({ setActivePage }) => {
                   onClick={() => { setActivePage('dashboard'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left', padding: 0 }}
                 >
-                  Scheme Match Dashboard
+                  {t('footerDashboard')}
                 </button>
               </li>
               <li>
@@ -74,7 +74,7 @@ export const Footer = ({ setActivePage }) => {
                   onClick={() => { setActivePage('assistant'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left', padding: 0 }}
                 >
-                  Grounded AI Assistant
+                  {t('footerAssistant')}
                 </button>
               </li>
               <li>
@@ -82,7 +82,7 @@ export const Footer = ({ setActivePage }) => {
                   onClick={() => { setActivePage('saved'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', textAlign: 'left', padding: 0 }}
                 >
-                  Document Readiness Tracker
+                  {t('footerReadiness')}
                 </button>
               </li>
             </ul>
@@ -90,7 +90,7 @@ export const Footer = ({ setActivePage }) => {
 
           {/* Official Portals */}
           <div>
-            <h4 style={{ color: 'var(--text-main)', marginBottom: '16px', fontSize: '15px' }}>Official Scheme Sources</h4>
+            <h4 style={{ color: 'var(--text-main)', marginBottom: '16px', fontSize: '15px' }}>{t('footerSources')}</h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '14px' }}>
               <li>
                 <a href="https://www.myscheme.gov.in" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -148,7 +148,7 @@ export const Footer = ({ setActivePage }) => {
         }}>
           <div>{t('footerRights')}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span>Built with precision & transparency</span>
+            <span>{t('footerBuiltWith')}</span>
           </div>
         </div>
 

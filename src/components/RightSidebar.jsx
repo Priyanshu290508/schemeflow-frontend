@@ -19,7 +19,9 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
       style={{
         width: '300px',
         borderLeft: '1px solid var(--border-subtle)',
-        background: '#FFFFFF',
+        background: 'var(--sidebar-bg)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         padding: '28px 20px 24px 20px',
         display: 'flex',
         flexDirection: 'column',
@@ -31,7 +33,8 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
     >
       {/* 1. Subscribe to Scheme Alerts Pill Card */}
       <div style={{
-        background: '#FFFFFF',
+        background: 'var(--bg-card)',
+        backdropFilter: 'blur(10px)',
         border: '1px solid var(--border-card)',
         borderRadius: 'var(--radius-lg)',
         padding: '16px 18px',
@@ -42,10 +45,10 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
       }}>
         <div>
           <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-main)', marginBottom: '2px' }}>
-            {subscribed ? 'Subscribed!' : 'Subscribe to Alerts'}
+            {subscribed ? t('subscribed') : t('subscribeAlerts')}
           </div>
           <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-            Get deadline & quota updates
+            {t('alertsDesc')}
           </div>
         </div>
 
@@ -65,14 +68,14 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
             transition: 'all 0.2s ease',
             boxShadow: '0 4px 12px rgba(255, 165, 48, 0.35)'
           }}
-          title="Subscribe"
+          title={subscribed ? t('subscribed') : t('subscribeAlerts')}
         >
           {subscribed ? <CheckCircle2 size={18} /> : <Mail size={18} />}
         </button>
       </div>
 
       {/* 2. Deep Royal Navy Wavy Community Card Matching Mockup */}
-      <div style={{
+      <div className="community-promo-card" style={{
         background: 'linear-gradient(145deg, #223D79 0%, #1A2F5E 60%, #111F3E 100%)',
         borderRadius: 'var(--radius-xl)',
         padding: '24px 20px',
@@ -118,7 +121,7 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
             color: '#FFFFFF'
           }}>
             <Users size={13} color="var(--primary-orange)" />
-            <span>Beneficiary Network</span>
+            <span>{t('beneficiaryNetwork')}</span>
           </div>
 
           <h3 style={{
@@ -129,11 +132,11 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
             marginBottom: '10px',
             fontFamily: 'var(--font-display)'
           }}>
-            Join a community of over 5,000+ Entrepreneurs here now
+            {t('communityTitle')}
           </h3>
 
           <p style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.5, marginBottom: '18px' }}>
-            Exchange verified DPR templates, bank interview tips, and margin money subsidy tracking.
+            {t('communityDesc')}
           </p>
 
           <button
@@ -153,7 +156,7 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
               boxShadow: 'var(--shadow-orange)'
             }}
           >
-            <span>Ask Assistant</span>
+            <span>{t('ctaAskAssistant')}</span>
             <ArrowUpRight size={14} />
           </button>
         </div>
@@ -186,10 +189,10 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
           </div>
           <div>
             <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1.1 }}>
-              16+ Schemes
+              {t('activeSchemesCount')}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              Active Central & State Rules
+              {t('activeRulesSub')}
             </div>
           </div>
         </div>
@@ -218,10 +221,10 @@ export const RightSidebar = ({ setActivePage, setSelectedSchemeId }) => {
           </div>
           <div>
             <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1.1 }}>
-              Up to 35%
+              {t('maxSubsidyStat')}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-              Non-Repayable Margin Subsidy
+              {t('maxSubsidyDesc')}
             </div>
           </div>
         </div>

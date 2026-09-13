@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
 import { SchemeComparator } from '../components/SchemeComparator';
 import { SuccessStories } from '../components/SuccessStories';
+import { localizeScheme, localizeCategory, localizeMatchLabel, localizeReason } from '../translations/schemeTranslations';
 import {
   Sparkles,
   ArrowRight,
@@ -50,19 +51,21 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
 
   const safeRecs = Array.isArray(recommendations) ? recommendations : [];
 
-  const filteredRecs = safeRecs.filter(rec => {
-    if (!rec) return false;
-    const matchesCategory = selectedCategory === 'All' || rec.category === selectedCategory;
-    const sName = rec.scheme_name || rec.name || '';
-    const sSumm = rec.summary || rec.description || '';
-    const sDept = rec.department || rec.ministry || '';
-    const query = (searchTerm || '').toLowerCase();
-    const matchesSearch = !query || 
-      sName.toLowerCase().includes(query) ||
-      sSumm.toLowerCase().includes(query) ||
-      sDept.toLowerCase().includes(query);
-    return matchesCategory && matchesSearch;
-  });
+  const filteredRecs = safeRecs
+    .map(r => localizeScheme(r, lang))
+    .filter(rec => {
+      if (!rec) return false;
+      const matchesCategory = selectedCategory === 'All' || rec.category === selectedCategory || localizeCategory(rec.category, lang) === selectedCategory;
+      const sName = rec.scheme_name || rec.name || '';
+      const sSumm = rec.summary || rec.description || '';
+      const sDept = rec.department || rec.ministry || '';
+      const query = (searchTerm || '').toLowerCase();
+      const matchesSearch = !query || 
+        sName.toLowerCase().includes(query) ||
+        sSumm.toLowerCase().includes(query) ||
+        sDept.toLowerCase().includes(query);
+      return matchesCategory && matchesSearch;
+    });
 
   const toggleCompareScheme = (rec) => {
     if (!rec) return;
@@ -96,7 +99,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
     }
 
     const whyText = Array.isArray(rec.why_this_scheme) ? rec.why_this_scheme.slice(0, 2).join('. ') : '';
-    const textToSpeak = `${rec.scheme_name || rec.name}. ${rec.summary || ''}. ${whyText}. Deadline: ${rec.deadline || 'Active'}`;
+    const textToSpeak = `${rec.scheme_name || rec.name}. ${rec.summary || ''}. ${whyText}.`;
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
     if (lang === 'hi') utterance.lang = 'hi-IN';
     else if (lang === 'bn') utterance.lang = 'bn-IN';
@@ -112,10 +115,10 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', width: '100%' }}>
       
       {/* 1. HERO SHOWCASE BANNER MATCHING PALETTE */}
-      <div style={{
+      <div className="hero-banner" style={{
         background: 'linear-gradient(135deg, #223D79 0%, #1A2F5E 55%, #122144 100%)',
         borderRadius: 'var(--radius-xl)',
         padding: '36px 40px',
@@ -153,7 +156,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
         }} />
 
         {/* Left Content */}
-        <div style={{ maxWidth: '520px', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '520px', position: 'relative', zIndex: 1, width: '100%' }}>
           <div style={{
             fontSize: '11px',
             fontWeight: 800,
@@ -162,11 +165,11 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
             color: 'var(--primary-orange)',
             marginBottom: '8px'
           }}>
-            GOVERNMENT WELFARE & SUBSIDY FINDER
+            {t('heroEyebrow')}
           </div>
 
           <h1 style={{
-            fontSize: '28px',
+            fontSize: 'clamp(22px, 4vw, 28px)',
             fontWeight: 800,
             color: '#FFFFFF',
             lineHeight: 1.2,
@@ -175,7 +178,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
             textTransform: 'uppercase',
             letterSpacing: '-0.01em'
           }}>
-            MOST RECOMMENDED SCHEMES THIS MONTH
+            {t('dashboardHeroTitle')}
           </h1>
 
           <p style={{
@@ -184,33 +187,39 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
             marginBottom: '22px',
             lineHeight: 1.5
           }}>
-            Evaluating 100% deterministic rules for {profile?.state || 'National'} • {profile?.business_type || 'Enterprises'} • ₹{Number(profile?.loan_required || 0).toLocaleString('en-IN')} funding.
+            {t('evaluatingRulesFor')} {profile?.state || 'National'} • {profile?.business_type || 'Enterprises'} • ₹{Number(profile?.loan_required || 0).toLocaleString('en-IN')}.
           </p>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <button
               onClick={() => setActivePage('wizard')}
+              className="btn btn-primary mobile-full-btn"
               style={{
                 background: 'var(--primary-orange)',
                 color: '#FFFFFF',
-                border: 'none',
                 borderRadius: 'var(--radius-pill)',
-                padding: '10px 24px',
+                padding: '12px 24px',
                 fontSize: '13px',
                 fontWeight: 800,
                 cursor: 'pointer',
                 boxShadow: 'var(--shadow-orange)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
               }}
             >
-              FIND MY SCHEMES
+              <span>{t('ctaFindSchemes')}</span>
+              <ArrowRight size={14} />
             </button>
 
             {compareList.length > 0 && (
               <button
                 onClick={() => setShowComparator(!showComparator)}
+                className="btn mobile-full-btn"
                 style={{
                   background: 'rgba(255, 255, 255, 0.15)',
                   backdropFilter: 'blur(8px)',
@@ -223,7 +232,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                   cursor: 'pointer'
                 }}
               >
-                {showComparator ? 'Hide Matrix' : `Compare Selected (${compareList.length})`}
+                {showComparator ? t('hideMatrix') : `${t('compareSelected')} (${compareList.length})`}
               </button>
             )}
           </div>
@@ -242,14 +251,15 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.2)',
             borderRadius: 'var(--radius-xl)',
-            padding: '18px 24px',
-            textAlign: 'center'
+            padding: '16px 22px',
+            textAlign: 'center',
+            minWidth: '130px'
           }}>
-            <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--primary-orange)', lineHeight: 1 }}>
+            <div style={{ fontSize: '26px', fontWeight: 800, color: 'var(--primary-orange)', lineHeight: 1 }}>
               ₹50 Lakh
             </div>
-            <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.85)', marginTop: '4px', textTransform: 'uppercase', fontWeight: 700 }}>
-              Max Project Assistance
+            <div style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.85)', marginTop: '4px', textTransform: 'uppercase', fontWeight: 700 }}>
+              {t('maxProjectAssist')}
             </div>
           </div>
         </div>
@@ -271,10 +281,16 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
 
       {/* 3. POPULAR SCHEMES SECTION */}
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-main)' }}>
-            Popular Recommendations
-          </h2>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+          <div>
+            <h2 style={{ fontSize: 'clamp(18px, 3vw, 20px)', fontWeight: 800, color: 'var(--text-main)', marginBottom: '2px' }}>
+              {t('dashboardTitle')}
+            </h2>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+              {t('dashboardSubtitle')}
+            </div>
+          </div>
+
           <button
             onClick={() => setActivePage('wizard')}
             style={{
@@ -286,16 +302,20 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '4px'
+              gap: '4px',
+              padding: '6px 0'
             }}
           >
-            <span>View all</span>
+            <span>{t('recalculateMatches')}</span>
             <ChevronRight size={15} />
           </button>
         </div>
 
-        {/* Category Filter Pills */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
+        {/* Category Filter Pills (Native Touch Scroll on Mobile) */}
+        <div className="category-scroll-container" style={{
+          marginBottom: '20px',
+          paddingBottom: '4px'
+        }}>
           {categories.map((cat, idx) => (
             <button
               key={idx}
@@ -309,10 +329,11 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                 fontSize: '12px',
                 fontWeight: 700,
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                whiteSpace: 'nowrap'
               }}
             >
-              {cat}
+              {localizeCategory(cat, lang)}
             </button>
           ))}
         </div>
@@ -331,7 +352,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
         ) : (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
             gap: '20px'
           }}>
             {filteredRecs.map((rec) => {
@@ -358,8 +379,8 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                 >
                   <div>
                     {/* Top Row: Category Badge + Save Bookmark */}
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <span className="badge badge-navy" style={{ fontSize: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '8px' }}>
+                      <span className="badge badge-navy" style={{ fontSize: '10px', maxWidth: '75%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {rec.category || 'General Welfare'}
                       </span>
 
@@ -372,8 +393,8 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                             color: isAudioActive ? 'var(--primary-orange)' : 'var(--primary-navy)',
                             border: 'none',
                             borderRadius: '50%',
-                            width: '26px',
-                            height: '26px',
+                            width: '28px',
+                            height: '28px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -392,7 +413,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                             border: 'none',
                             color: isSaved ? 'var(--primary-orange)' : 'var(--text-muted)',
                             cursor: 'pointer',
-                            padding: '2px'
+                            padding: '4px'
                           }}
                         >
                           <Bookmark size={16} fill={isSaved ? 'var(--primary-orange)' : 'none'} />
@@ -411,7 +432,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                         fontWeight: 700,
                         color: 'var(--text-main)',
                         lineHeight: 1.35,
-                        marginBottom: '8px',
+                        marginBottom: '6px',
                         cursor: 'pointer',
                         transition: 'color 0.2s ease'
                       }}
@@ -426,7 +447,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                       {rec.department || rec.ministry}
                     </div>
 
-                    {/* Score Bar & Match Label */}
+                    {/* Score Bar & Match Label (Transparent Match Score: 94/100) */}
                     <div style={{
                       background: 'var(--bg-secondary)',
                       borderRadius: 'var(--radius-md)',
@@ -434,19 +455,39 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                       marginBottom: '14px',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'space-between'
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      gap: '8px'
                     }}>
-                      <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)' }}>
-                        Match Score:
-                      </span>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ fontSize: '15px', fontWeight: 800, color: matchScoreVal >= 85 ? 'var(--primary-orange)' : 'var(--primary-navy)' }}>
-                          {matchScoreVal}%
-                        </span>
-                        <span className={`badge ${rec.mandatory_eligible !== false ? 'badge-orange' : 'badge-danger'}`} style={{ fontSize: '10px' }}>
-                          {rec.match_label || 'Eligible'}
-                        </span>
+                      <div>
+                        <div style={{ fontSize: '10px', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>
+                          {t('matchScore')}
+                        </div>
+                        <div style={{ fontSize: '16px', fontWeight: 800, color: matchScoreVal >= 85 ? 'var(--primary-orange)' : 'var(--primary-navy)' }}>
+                          {matchScoreVal}/100
+                        </div>
                       </div>
+
+                      <span className={`badge ${rec.mandatory_eligible !== false ? 'badge-orange' : 'badge-danger'}`} style={{ fontSize: '10px' }}>
+                        {localizeMatchLabel(rec.match_label, lang) || (rec.mandatory_eligible !== false ? (lang === 'hi' ? 'पात्र (Eligible)' : lang === 'bn' ? 'উপযুক্ত (Eligible)' : 'Eligible') : (lang === 'hi' ? 'अपात्र (Ineligible)' : 'Ineligible'))}
+                      </span>
+                    </div>
+
+                    {/* Matched Criteria Bullet List */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '12px' }}>
+                      {Array.isArray(rec.why_this_scheme) && rec.why_this_scheme.slice(0, 3).map((why, idx) => (
+                        <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '11px', color: 'var(--text-secondary)' }}>
+                          <span style={{ color: 'var(--success)', fontWeight: 800 }}>✓</span>
+                          <span>{localizeReason(why.replace(/^✓\s*/, ''), lang)}</span>
+                        </div>
+                      ))}
+
+                      {Array.isArray(rec.missing_conditions) && rec.missing_conditions.length > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '11px', color: 'var(--warning)', marginTop: '2px' }}>
+                          <span style={{ fontWeight: 800 }}>⚠</span>
+                          <span>{localizeReason(rec.missing_conditions[0].replace(/^[✗⚠○]\s*/, ''), lang)}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Proactive Near-Miss Tip If Available */}
@@ -458,9 +499,9 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                         fontSize: '11px',
                         color: 'var(--warning)',
                         marginBottom: '12px',
-                        lineHeight: 1.3
+                        lineHeight: 1.35
                       }}>
-                        {rec.near_miss_tips[0]}
+                        💡 {localizeReason(rec.near_miss_tips[0].replace(/^💡\s*/, ''), lang)}
                       </div>
                     )}
                   </div>
@@ -472,6 +513,7 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    flexWrap: 'wrap',
                     gap: '8px'
                   }}>
                     <button
@@ -481,13 +523,13 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                         color: isCompared ? '#FFFFFF' : 'var(--text-secondary)',
                         border: '1px solid var(--border-card)',
                         borderRadius: 'var(--radius-pill)',
-                        padding: '4px 10px',
+                        padding: '6px 12px',
                         fontSize: '11px',
                         fontWeight: 600,
                         cursor: 'pointer'
                       }}
                     >
-                      {isCompared ? '✓ Compared' : '+ Compare'}
+                      {isCompared ? `✓ ${t('addToCompare')}` : `+ ${t('addToCompare')}`}
                     </button>
 
                     <button
@@ -496,10 +538,10 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
                         if (typeof setActivePage === 'function') setActivePage('detail');
                       }}
                       className="btn btn-navy btn-sm"
-                      style={{ padding: '4px 12px', fontSize: '11px' }}
+                      style={{ padding: '6px 14px', fontSize: '12px' }}
                     >
-                      <span>Details</span>
-                      <ArrowRight size={12} />
+                      <span>{t('viewDetails')}</span>
+                      <ArrowRight size={13} />
                     </button>
                   </div>
 

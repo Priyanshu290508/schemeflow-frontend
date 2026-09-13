@@ -12,6 +12,7 @@ import {
   Settings,
   GraduationCap,
   ShieldCheck,
+  Lock,
   X
 } from 'lucide-react';
 
@@ -20,12 +21,13 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
   const { savedSchemeIds = [] } = useProfile();
 
   const navItems = [
-    { id: 'dashboard', label: 'Home / Discover', icon: Home },
-    { id: 'wizard', label: 'Categories / Fit', icon: Grid },
+    { id: 'dashboard', label: t('navDiscover'), icon: Home },
+    { id: 'wizard', label: t('navCategoriesFit'), icon: Grid },
     { id: 'tracker', label: t('navTracker'), icon: FileSearch },
     { id: 'assistant', label: t('navAssistant'), icon: Sparkles },
     { id: 'saved', label: `${t('navSaved')} (${savedSchemeIds?.length || 0})`, icon: Bookmark },
-    { id: 'profile', label: 'Profile & Settings', icon: Settings },
+    { id: 'login', label: t('navLogin'), icon: Lock },
+    { id: 'profile', label: t('navProfileSettings'), icon: Settings },
   ];
 
   const handleNavClick = (id) => {
@@ -49,7 +51,9 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
         style={{
           width: '240px',
           borderRight: '1px solid var(--border-subtle)',
-          background: '#FFFFFF',
+          background: 'var(--sidebar-bg)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           padding: '24px 16px 20px 18px',
           display: 'flex',
           flexDirection: 'column',
@@ -96,45 +100,49 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
                 <div style={{
                   fontFamily: 'var(--font-display)',
                   fontWeight: 800,
-                  fontSize: '16px',
-                  color: 'var(--primary-navy)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.1
+                  fontSize: '17px',
+                  letterSpacing: '-0.03em',
+                  color: 'var(--primary-navy)'
                 }}>
                   SchemeFlow
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                  Public Welfare
+                <div style={{
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: 'var(--palette-slate)',
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase'
+                }}>
+                  {t('publicWelfare')}
                 </div>
               </div>
             </div>
 
-            {/* Mobile Close Icon */}
+            {/* Mobile Close Icon Button */}
             <button
               onClick={() => typeof setMobileMenuOpen === 'function' && setMobileMenuOpen(false)}
-              style={{
-                background: 'var(--bg-secondary)',
-                border: 'none',
-                borderRadius: '50%',
-                width: '32px',
-                height: '32px',
-                display: 'none',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--text-main)',
-                cursor: 'pointer'
-              }}
               className="mobile-close-btn"
+              style={{
+                display: 'none',
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+                padding: '6px',
+                borderRadius: '6px'
+              }}
             >
-              <X size={18} />
+              <X size={20} />
             </button>
           </div>
 
-          {/* Navigation List */}
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            {navItems.map((item) => {
+          {/* Nav List */}
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {navItems.map(item => {
               const Icon = item.icon;
-              const isActive = activePage === item.id || (item.id === 'dashboard' && activePage === 'landing');
+              const isActive = activePage === item.id || 
+                (item.id === 'dashboard' && activePage === 'landing') ||
+                (item.id === 'wizard' && activePage === 'detail');
 
               return (
                 <button
@@ -144,18 +152,30 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    width: '100%',
-                    padding: isActive ? '8px 14px' : '10px 14px',
-                    borderRadius: isActive ? 'var(--radius-pill)' : 'var(--radius-md)',
-                    background: isActive ? 'var(--primary-orange)' : 'transparent',
-                    color: isActive ? '#FFFFFF' : 'var(--text-muted)',
-                    fontWeight: isActive ? 800 : 600,
+                    padding: isActive ? '9px 12px' : '9px 12px',
+                    borderRadius: 'var(--radius-pill)',
+                    background: isActive ? 'var(--primary-navy)' : 'transparent',
+                    color: isActive ? '#FFFFFF' : 'var(--text-secondary)',
+                    fontWeight: isActive ? 700 : 600,
                     fontSize: '13px',
                     border: 'none',
                     cursor: 'pointer',
-                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
+                    width: '100%',
                     textAlign: 'left',
-                    boxShadow: isActive ? 'var(--shadow-orange)' : 'none'
+                    boxShadow: isActive ? 'var(--shadow-card)' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'var(--bg-secondary)';
+                      e.currentTarget.style.color = 'var(--text-main)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = 'var(--text-secondary)';
+                    }
                   }}
                 >
                   {/* Circular Icon Container */}
@@ -167,7 +187,7 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: isActive ? 'var(--primary-orange)' : 'inherit',
+                    color: isActive ? 'var(--primary-navy)' : 'inherit',
                     flexShrink: 0
                   }}>
                     <Icon size={isActive ? 15 : 17} />
@@ -179,24 +199,26 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
           </nav>
         </div>
 
-        {/* Bottom Quick Card */}
-        <div style={{
-          background: 'var(--palette-sand-light)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-md)',
-          padding: '12px 14px',
-          marginTop: '20px',
-          textAlign: 'left'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-            <ShieldCheck size={14} color="var(--primary-navy)" />
-            <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--primary-navy)', textTransform: 'uppercase' }}>
-              100% Grounded
-            </span>
+        {/* Bottom Area: Trust Badge */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
+          {/* Bottom Quick Card */}
+          <div style={{
+            background: 'var(--palette-sand-light)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)',
+            padding: '12px 14px',
+            textAlign: 'left'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+              <ShieldCheck size={14} color="var(--primary-navy)" />
+              <span style={{ fontSize: '10px', fontWeight: 800, color: 'var(--primary-navy)', textTransform: 'uppercase' }}>
+                {t('groundedBadge')}
+              </span>
+            </div>
+            <p style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.35, margin: 0 }}>
+              {t('deterministicDesc')}
+            </p>
           </div>
-          <p style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: 1.35, margin: 0 }}>
-            Official deterministic matching.
-          </p>
         </div>
       </aside>
 

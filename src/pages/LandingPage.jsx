@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { api } from '../services/api';
 import { MatchScore } from '../components/MatchScore';
+import { localizeScheme, localizeCategory } from '../translations/schemeTranslations';
 import {
   Sparkles,
   ArrowRight,
@@ -19,7 +20,7 @@ import {
 } from 'lucide-react';
 
 export const LandingPage = ({ setActivePage, setSelectedSchemeId }) => {
-  const { t } = useLanguage();
+  const { lang, language, t } = useLanguage();
   const [featuredSchemes, setFeaturedSchemes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -459,84 +460,87 @@ export const LandingPage = ({ setActivePage, setSelectedSchemeId }) => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                {cat}
+                {cat === 'All' ? (t('catAll') || 'All') : localizeCategory(cat, language)}
               </button>
             ))}
           </div>
 
           {/* Schemes Grid */}
           <div className="grid-3">
-            {filteredSchemes.slice(0, 6).map((scheme) => (
-              <div
-                key={scheme.id}
-                className="card"
-                style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-              >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '12px' }}>
-                    <span className="badge badge-cyan" style={{ fontSize: '11px' }}>
-                      {scheme.category}
-                    </span>
-                    <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
-                      Verified: {scheme.last_verified_at}
-                    </span>
-                  </div>
-
-                  <h3 style={{ fontSize: '18px', marginBottom: '8px', color: 'var(--text-main)' }}>
-                    {scheme.name}
-                  </h3>
-
-                  <p style={{ fontSize: '13px', lineHeight: 1.5, marginBottom: '16px', color: 'var(--text-secondary)' }}>
-                    {scheme.summary}
-                  </p>
-                </div>
-
-                <div>
-                  {scheme.max_benefit && (
-                    <div style={{
-                      background: 'rgba(3, 10, 18, 0.5)',
-                      padding: '10px 14px',
-                      borderRadius: 'var(--radius-sm)',
-                      marginBottom: '16px',
-                      fontSize: '12px'
-                    }}>
-                      <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>
-                        Maximum Assistance
+            {filteredSchemes.slice(0, 6).map((rawScheme) => {
+              const scheme = localizeScheme(rawScheme, language);
+              return (
+                <div
+                  key={scheme.id}
+                  className="card"
+                  style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '12px' }}>
+                      <span className="badge badge-cyan" style={{ fontSize: '11px' }}>
+                        {localizeCategory(scheme.category, language)}
                       </span>
-                      <span style={{ fontWeight: 700, color: 'var(--primary-bright)' }}>
-                        {scheme.max_benefit}
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                        {t('verifiedBadge')}: {scheme.last_verified_at}
                       </span>
                     </div>
-                  )}
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <button
-                      onClick={() => {
-                        setSelectedSchemeId(scheme.id);
-                        setActivePage('detail');
-                      }}
-                      className="btn btn-secondary btn-sm"
-                      style={{ flex: 1 }}
-                    >
-                      {t('viewDetails')}
-                    </button>
+                    <h3 style={{ fontSize: '18px', marginBottom: '8px', color: 'var(--text-main)' }}>
+                      {scheme.name}
+                    </h3>
 
-                    {scheme.source_url && (
-                      <a
-                        href={scheme.source_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="btn btn-outline btn-sm"
-                        title="Official Ministry Guidelines"
-                      >
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
+                    <p style={{ fontSize: '13px', lineHeight: 1.5, marginBottom: '16px', color: 'var(--text-secondary)' }}>
+                      {scheme.summary}
+                    </p>
                   </div>
-                </div>
 
-              </div>
-            ))}
+                  <div>
+                    {scheme.max_benefit && (
+                      <div style={{
+                        background: 'rgba(3, 10, 18, 0.5)',
+                        padding: '10px 14px',
+                        borderRadius: 'var(--radius-sm)',
+                        marginBottom: '16px',
+                        fontSize: '12px'
+                      }}>
+                        <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>
+                          {t('maxBenefitLabel')}
+                        </span>
+                        <span style={{ fontWeight: 700, color: 'var(--primary-bright)' }}>
+                          {scheme.max_benefit}
+                        </span>
+                      </div>
+                    )}
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <button
+                        onClick={() => {
+                          setSelectedSchemeId(scheme.id);
+                          setActivePage('detail');
+                        }}
+                        className="btn btn-secondary btn-sm"
+                        style={{ flex: 1 }}
+                      >
+                        {t('viewDetails')}
+                      </button>
+
+                      {scheme.source_url && (
+                        <a
+                          href={scheme.source_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn btn-outline btn-sm"
+                          title="Official Ministry Guidelines"
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })}
           </div>
 
         </div>

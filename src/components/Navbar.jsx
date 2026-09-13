@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 export const Navbar = ({ activePage, setActivePage, searchTerm, setSearchTerm, setMobileMenuOpen }) => {
-  const { lang, setLang } = useLanguage();
+  const { lang, setLang, t } = useLanguage();
   const { profile = {} } = useProfile();
 
   const handleSearchSubmit = (e) => {
@@ -68,28 +68,29 @@ export const Navbar = ({ activePage, setActivePage, searchTerm, setSearchTerm, s
             type="text"
             value={searchTerm || ''}
             onChange={(e) => setSearchTerm && setSearchTerm(e.target.value)}
-            placeholder="Search schemes, subsidies..."
+            placeholder={t('searchPlaceholder')}
             style={{
               width: '100%',
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'var(--bg-card)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              border: '1px solid var(--border-card)',
               borderRadius: 'var(--radius-pill)',
               padding: '11px 44px 11px 18px',
               fontSize: '13px',
               color: 'var(--text-main)',
               outline: 'none',
               transition: 'all 0.2s ease',
-              fontFamily: 'var(--font-main)'
+              fontFamily: 'var(--font-main)',
+              boxShadow: 'var(--shadow-card)'
             }}
             onFocus={(e) => {
-              e.target.style.background = '#FFFFFF';
-              e.target.style.borderColor = 'var(--primary-navy)';
-              e.target.style.boxShadow = '0 4px 15px rgba(34, 61, 121, 0.08)';
+              e.target.style.borderColor = 'var(--primary-orange)';
+              e.target.style.boxShadow = '0 0 0 3px var(--primary-orange-light)';
             }}
             onBlur={(e) => {
-              e.target.style.background = 'var(--bg-secondary)';
-              e.target.style.borderColor = 'var(--border-subtle)';
-              e.target.style.boxShadow = 'none';
+              e.target.style.borderColor = 'var(--border-card)';
+              e.target.style.boxShadow = 'var(--shadow-card)';
             }}
           />
 
@@ -115,7 +116,7 @@ export const Navbar = ({ activePage, setActivePage, searchTerm, setSearchTerm, s
         </form>
       </div>
 
-      {/* Right Controls: Language Flag Switcher + Notification + User Pill */}
+      {/* Right Controls: Language Selector + Notification + User Pill */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         
         {/* Language Flag Selector */}
@@ -144,9 +145,9 @@ export const Navbar = ({ activePage, setActivePage, searchTerm, setSearchTerm, s
               outline: 'none'
             }}
           >
-            <option value="en">EN 🇬🇧</option>
-            <option value="hi">HI 🇮🇳</option>
-            <option value="bn">BN 🇮🇳</option>
+            <option value="en">EN 🇬🇧 English</option>
+            <option value="hi">HI 🇮🇳 हिन्दी</option>
+            <option value="bn">BN 🇮🇳 বাংলা</option>
           </select>
         </div>
 
@@ -178,42 +179,44 @@ export const Navbar = ({ activePage, setActivePage, searchTerm, setSearchTerm, s
             height: '7px',
             borderRadius: '50%',
             background: 'var(--primary-orange)',
-            border: '2px solid #FFFFFF'
+            border: '2px solid var(--bg-card-solid)'
           }} />
         </div>
 
-        {/* User Profile Pill Widget */}
-        <div
-          onClick={() => setActivePage('profile')}
+        {/* User Sign In / Profile Pill Widget */}
+        <button
+          onClick={() => setActivePage('login')}
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: '#FFFFFF',
+            background: 'var(--bg-card)',
+            backdropFilter: 'blur(10px)',
             border: '1px solid var(--border-card)',
             borderRadius: 'var(--radius-pill)',
-            padding: '3px 10px 3px 5px',
+            padding: '4px 14px 4px 6px',
             cursor: 'pointer',
             boxShadow: 'var(--shadow-card)',
-            flexShrink: 0
+            flexShrink: 0,
+            transition: 'all 0.2s ease',
           }}
+          title={t('signIn')}
         >
           <img
             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
             alt="Profile Avatar"
             style={{
-              width: '28px',
-              height: '28px',
+              width: '26px',
+              height: '26px',
               borderRadius: '50%',
               objectFit: 'cover'
             }}
           />
-          <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-main)' }} className="desktop-only">
-            {profile?.district ? `${profile.district}` : 'My Profile'}
+          <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--primary-navy)' }}>
+            {profile?.district ? `${profile.district}` : t('signIn')}
           </span>
           <ChevronDown size={13} color="var(--text-muted)" className="desktop-only" />
-        </div>
-
+        </button>
       </div>
 
     </header>

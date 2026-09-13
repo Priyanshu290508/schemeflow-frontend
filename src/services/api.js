@@ -1,10 +1,20 @@
 // SchemeFlow API Client Service
-// Automatically adapts between local development and Render.com production
-const API_BASE = import.meta.env.VITE_API_BASE_URL || (
-  typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-    ? 'http://127.0.0.1:8000/api'
-    : '/api'
-);
+// Automatically adapts between localhost, local network Wi-Fi (phone access), and production
+const getApiBase = () => {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1' || host.startsWith('192.168.') || host.startsWith('10.') || host.startsWith('172.')) {
+      return `http://${host}:8000/api`;
+    }
+  }
+  return '/api';
+};
+
+const API_BASE = getApiBase();
+
 
 export const api = {
   // Get all schemes or filtered list
