@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
+import { LanguageSelector } from './LanguageSelector';
 import {
   Home,
   Grid,
@@ -199,8 +200,11 @@ export const Sidebar = ({ activePage, setActivePage, mobileMenuOpen, setMobileMe
           </nav>
         </div>
 
-        {/* Bottom Area: Trust Badge */}
+        {/* Bottom Area: Language Selector & Trust Badge */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
+          {/* Mobile & Drawer Language Selector */}
+          <LanguageSelector variant="sidebar" onClose={() => typeof setMobileMenuOpen === 'function' && setMobileMenuOpen(false)} />
+
           {/* Bottom Quick Card */}
           <div style={{
             background: 'var(--palette-sand-light)',

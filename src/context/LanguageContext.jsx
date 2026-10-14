@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { translations } from '../translations/dict';
+import { translations, SUPPORTED_LANGUAGES, getLanguageConfig, getSpeechVoice } from '../translations/dict';
 
 const LanguageContext = createContext();
 
@@ -10,6 +10,10 @@ export const LanguageProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('schemeflow_lang', lang);
+    // Also update document lang attribute for accessibility screen readers
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang;
+    }
   }, [lang]);
 
   const t = (key) => {
@@ -17,8 +21,21 @@ export const LanguageProvider = ({ children }) => {
     return langDict[key] || translations.en[key] || key;
   };
 
+  const currentLanguageConfig = getLanguageConfig(lang);
+
   return (
-    <LanguageContext.Provider value={{ lang, language: lang, setLang, setLanguage: setLang, t }}>
+    <LanguageContext.Provider
+      value={{
+        lang,
+        language: lang,
+        setLang,
+        setLanguage: setLang,
+        t,
+        supportedLanguages: SUPPORTED_LANGUAGES,
+        currentLanguageConfig,
+        getSpeechVoice: (voices) => getSpeechVoice(lang, voices)
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );

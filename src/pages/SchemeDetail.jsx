@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 
 export const SchemeDetail = ({ schemeId, setActivePage }) => {
-  const { lang, t } = useLanguage();
+  const { lang, t, getSpeechVoice } = useLanguage();
   const { profile = {}, savedSchemeIds = [], toggleSaveScheme } = useProfile();
   
   const [rawEvaluation, setRawEvaluation] = useState(null);
@@ -64,9 +64,12 @@ export const SchemeDetail = ({ schemeId, setActivePage }) => {
     const whyList = Array.isArray(evaluation.why_this_scheme) ? evaluation.why_this_scheme.slice(0, 3).join('. ') : '';
     const textToSpeak = `${evaluation.scheme_name}. ${evaluation.summary}. Maximum benefit: ${evaluation.max_benefit}.`;
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    if (lang === 'hi') utterance.lang = 'hi-IN';
-    else if (lang === 'bn') utterance.lang = 'bn-IN';
-    else utterance.lang = 'en-IN';
+    const voices = window.speechSynthesis.getVoices();
+    const voiceMatch = typeof getSpeechVoice === 'function' ? getSpeechVoice(voices) : { langCode: 'en-IN', voice: null };
+    utterance.lang = voiceMatch.langCode || 'en-IN';
+    if (voiceMatch.voice) {
+      utterance.voice = voiceMatch.voice;
+    }
     utterance.rate = 0.95;
 
     utterance.onend = () => setIsPlayingAudio(false);

@@ -617,6 +617,141 @@ export function localizeCategory(category, lang = 'en') {
       'Agriculture & Direct Income Support': 'কৃষি ও সহায়তা',
       'Urban Livelihoods & Micro-Credit': 'শহুরে জীবিকা ও ক্ষুদ্র ঋণ',
       'Street Vendors & Urban Livelihoods': 'শহুরে হকার ও জীবিকা'
+    },
+    mr: {
+      'All': 'सर्व श्रेणी',
+      'Business & Entrepreneurship': 'व्यवसाय आणि MSME',
+      'Business & MSME': 'व्यवसाय आणि MSME',
+      'Credit & Micro-Finance': 'कर्ज आणि सूक्ष्म-वित्त',
+      'Women & SC/ST Entrepreneurship': 'महिला आणि आजीविका',
+      'Women & Livelihoods': 'महिला आणि आजीविका',
+      'Artisans & Traditional Crafts': 'कारागीर आणि हस्तकला',
+      'Artisans & Crafts': 'कारागीर आणि हस्तकला',
+      'Animal Husbandry & Dairy': 'कृषी आणि पशुपालन',
+      'Agriculture & Livestock': 'कृषी आणि पशुपालन',
+      'Agriculture & Direct Income Support': 'कृषी आणि उत्पन्न सहाय्य',
+      'Urban Livelihoods & Micro-Credit': 'शहरी आजीविका आणि सूक्ष्म-कर्ज',
+      'Street Vendors & Urban Livelihoods': 'शहरी फेरीवाले आणि आजीविका'
+    },
+    te: {
+      'All': 'అన్ని వర్గాలు',
+      'Business & Entrepreneurship': 'వ్యాపారం & MSME',
+      'Business & MSME': 'వ్యాపారం & MSME',
+      'Credit & Micro-Finance': 'రుణం & మైక్రో-ఫైనాన్స్',
+      'Women & SC/ST Entrepreneurship': 'మహిళలు & జీవనోపాధి',
+      'Women & Livelihoods': 'మహిళలు & జీవనోపాధి',
+      'Artisans & Traditional Crafts': 'చేతివృత్తులు & కళాకారులు',
+      'Artisans & Crafts': 'చేతివృత్తులు & కళాకారులు',
+      'Animal Husbandry & Dairy': 'వ్యవసాయం & పాడిపరిశ్రమ',
+      'Agriculture & Livestock': 'వ్యవసాయం & పశుಸಂಪದ',
+      'Agriculture & Direct Income Support': 'వ్యవసాయం & ప్రత్యక్ష ఆదాయం',
+      'Urban Livelihoods & Micro-Credit': 'పట్టణ జీవనోపాధి & సూక్ష్మ రుణాలు',
+      'Street Vendors & Urban Livelihoods': 'వీధి వ్యాపారులు & జీవనోపాధి'
+    },
+    ta: {
+      'All': 'அனைத்து பிரிவுகள்',
+      'Business & Entrepreneurship': 'வணிகம் & MSME',
+      'Business & MSME': 'வணிகம் & MSME',
+      'Credit & Micro-Finance': 'கடன் & மைக்ரோ-ஃபைனான்ஸ்',
+      'Women & SC/ST Entrepreneurship': 'பெண்கள் & வாழ்வாதாரம்',
+      'Women & Livelihoods': 'பெண்கள் & வாழ்வாதாரம்',
+      'Artisans & Traditional Crafts': 'கைவினைஞர்கள் & கைவினை',
+      'Artisans & Crafts': 'கைவினைஞர்கள் & கைவினை',
+      'Animal Husbandry & Dairy': 'விவசாயம் & கால்நடை',
+      'Agriculture & Livestock': 'விவசாயம் & கால்நடை வளர்ப்பு',
+      'Agriculture & Direct Income Support': 'விவசாயம் & நேரடி வருமான உதவி',
+      'Urban Livelihoods & Micro-Credit': 'நகர்ப்புற வாழ்வாதாரம் & நுண்கடன்',
+      'Street Vendors & Urban Livelihoods': 'தெருவோர வியாபாரிகள் & வாழ்வாதாரம்'
+    },
+    gu: {
+      'All': 'બધી શ્રેણીઓ',
+      'Business & Entrepreneurship': 'વ્યવસાય અને MSME',
+      'Business & MSME': 'વ્યવસાય અને MSME',
+      'Credit & Micro-Finance': 'લોન અને માઇક્રો-ફાઇનાન્સ',
+      'Women & SC/ST Entrepreneurship': 'મહિલા અને આજીવિકા',
+      'Women & Livelihoods': 'મહિલા અને આજીવિકા',
+      'Artisans & Traditional Crafts': 'કારીગરો અને હસ્તકલા',
+      'Artisans & Crafts': 'કારીગરો અને હસ્તકલા',
+      'Animal Husbandry & Dairy': 'કૃષિ અને પશુપાલન',
+      'Agriculture & Livestock': 'કૃષિ અને પશુધન',
+      'Agriculture & Direct Income Support': 'કૃષિ અને આવક સહાય',
+      'Urban Livelihoods & Micro-Credit': 'શહેરી આજીવિકા અને સૂક્ષ્મ ધિરાણ',
+      'Street Vendors & Urban Livelihoods': 'શેરી ફેરિયાઓ અને આજીવિકા'
+    },
+    kn: {
+      'All': 'ಎಲ್ಲಾ ವರ್ಗಗಳು',
+      'Business & Entrepreneurship': 'ವ್ಯವಹಾರ & MSME',
+      'Business & MSME': 'ವ್ಯವಹಾರ & MSME',
+      'Credit & Micro-Finance': 'ಸಾಲ & ಕಿರುಹಣಕಾಸು',
+      'Women & SC/ST Entrepreneurship': 'ಮಹಿಳೆಯರು & ಜೀವನೋಪಾಯ',
+      'Women & Livelihoods': 'ಮಹಿಳೆಯರು & ಜೀವನೋಪಾಯ',
+      'Artisans & Traditional Crafts': 'ಕುಶಲಕರ್ಮಿಗಳು & ಕರಕುಶಲ',
+      'Artisans & Crafts': 'ಕುಶಲಕರ್ಮಿಗಳು & ಕರಕುಶಲ',
+      'Animal Husbandry & Dairy': 'ಕೃಷಿ & ಹೈನುಗಾರಿಕೆ',
+      'Agriculture & Livestock': 'ಕೃಷಿ & ಪಶುಸಂಗೋಪನೆ',
+      'Agriculture & Direct Income Support': 'ಕೃಷಿ & ನೇರ ಆದಾಯ ಬೆಂಬಲ',
+      'Urban Livelihoods & Micro-Credit': 'ನಗರ ಜೀವನೋಪಾಯ & ಕಿರುಸಾಲ',
+      'Street Vendors & Urban Livelihoods': 'ಬೀದಿ ವ್ಯಾಪಾರಿಗಳು & ಜೀವನೋಪಾಯ'
+    },
+    ml: {
+      'All': 'എല്ലാ വിഭാഗങ്ങളും',
+      'Business & Entrepreneurship': 'ബിസിനസ്സ് & MSME',
+      'Business & MSME': 'ബിസിനസ്സ് & MSME',
+      'Credit & Micro-Finance': 'വായ്പ & മൈക്രോ ഫിനാൻസ്',
+      'Women & SC/ST Entrepreneurship': 'വനിതകൾ & ഉപജീവനമാർഗ്ഗം',
+      'Women & Livelihoods': 'വനിതകൾ & ഉപജീവനമാർഗ്ഗം',
+      'Artisans & Traditional Crafts': 'കരകൗശല വിദഗ്ധർ',
+      'Artisans & Crafts': 'കരകൗശല വിദഗ്ധർ',
+      'Animal Husbandry & Dairy': 'കൃഷി & ക്ഷീരവികസനം',
+      'Agriculture & Livestock': 'കൃഷി & മൃഗസംരക്ഷണം',
+      'Agriculture & Direct Income Support': 'കൃഷി & നേരിട്ടുള്ള വരുമാന സഹായം',
+      'Urban Livelihoods & Micro-Credit': 'നഗര ഉപജീവനം & ചെറുകിട വായ്പ',
+      'Street Vendors & Urban Livelihoods': 'തെരുവ് കച്ചവടക്കാർ & ഉപജീവനം'
+    },
+    or: {
+      'All': 'ସମସ୍ତ ବର୍ଗ',
+      'Business & Entrepreneurship': 'ବ୍ୟବସାୟ ଓ MSME',
+      'Business & MSME': 'ବ୍ୟବସାୟ ଓ MSME',
+      'Credit & Micro-Finance': 'ଋଣ ଓ କ୍ଷୁଦ୍ର ଅର୍ଥ',
+      'Women & SC/ST Entrepreneurship': 'ମହିଳା ଓ ଜୀବିକା',
+      'Women & Livelihoods': 'ମହିଳା ଓ ଜୀବିକା',
+      'Artisans & Traditional Crafts': 'କାରିଗର ଓ ହସ୍ତଶିଳ୍ପ',
+      'Artisans & Crafts': 'କାରିଗର ଓ ହସ୍ତଶିଳ୍ପ',
+      'Animal Husbandry & Dairy': 'କୃଷି ଓ ପ୍ରାଣୀପାଳନ',
+      'Agriculture & Livestock': 'କୃଷି ଓ ପ୍ରାଣୀସମ୍ପଦ',
+      'Agriculture & Direct Income Support': 'କୃଷି ଓ ଆୟ ସହାୟତା',
+      'Urban Livelihoods & Micro-Credit': 'ସହରାଞ୍ଚଳ ଜୀବିକା ଓ କ୍ଷୁଦ୍ର ଋଣ',
+      'Street Vendors & Urban Livelihoods': 'ଉଠାଦୋକାନୀ ଓ ଜୀବିକା'
+    },
+    pa: {
+      'All': 'ਸਾਰੀਆਂ ਸ਼੍ਰੇਣੀਆਂ',
+      'Business & Entrepreneurship': 'ਵਪਾਰ ਅਤੇ MSME',
+      'Business & MSME': 'ਵਪਾਰ ਅਤੇ MSME',
+      'Credit & Micro-Finance': 'ਕਰਜ਼ਾ ਅਤੇ ਮਾਈਕ੍ਰੋ-ਫਾਈਨਾਂਸ',
+      'Women & SC/ST Entrepreneurship': 'ਮਹਿਲਾ ਅਤੇ ਰੋਜ਼ੀ-ਰੋਟੀ',
+      'Women & Livelihoods': 'ਮਹਿਲਾ ਅਤੇ ਰੋਜ਼ੀ-ਰੋਟੀ',
+      'Artisans & Traditional Crafts': 'ਕਾਰੀਗਰ ਅਤੇ ਦਸਤਕਾਰੀ',
+      'Artisans & Crafts': 'ਕਾਰੀਗਰ ਅਤੇ ਦਸਤਕਾਰੀ',
+      'Animal Husbandry & Dairy': 'ਖੇਤੀਬਾੜੀ ਅਤੇ ਡੇਅਰੀ',
+      'Agriculture & Livestock': 'ਖੇਤੀਬਾੜੀ ਅਤੇ ਪਸ਼ੂ ਪਾਲਣ',
+      'Agriculture & Direct Income Support': 'ਖੇਤੀਬਾੜੀ ਅਤੇ ਆਮਦਨ ਸਹਾਇਤਾ',
+      'Urban Livelihoods & Micro-Credit': 'ਸ਼ਹਿਰੀ ਰੋਜ਼ੀ-ਰੋਟੀ ਅਤੇ ਛੋਟੇ ਕਰਜ਼ੇ',
+      'Street Vendors & Urban Livelihoods': 'ਰੇਹੜੀ-ਫੜ੍ਹੀ ਵਾਲੇ ਅਤੇ ਰੋਜ਼ੀ-ਰੋਟੀ'
+    },
+    as: {
+      'All': 'সকলো শ্ৰেণী',
+      'Business & Entrepreneurship': 'ব্যৱসায় আৰু MSME',
+      'Business & MSME': 'ব্যৱসায় আৰু MSME',
+      'Credit & Micro-Finance': "ঋণ আৰু মাইক্ৰ'-ফাইনেঞ্চ",
+      'Women & SC/ST Entrepreneurship': 'মহিলা আৰু জীৱিকা',
+      'Women & Livelihoods': 'মহিলা আৰু জীৱিকা',
+      'Artisans & Traditional Crafts': 'শিল্পী আৰু কাৰুশিল্প',
+      'Artisans & Crafts': 'শিল্পী আৰু কাৰুশিল্প',
+      'Animal Husbandry & Dairy': 'কৃষি আৰু পশুপালন',
+      'Agriculture & Livestock': 'কৃষি আৰু পশুধন',
+      'Agriculture & Direct Income Support': 'কৃষি আৰু আয় সাহায্য',
+      'Urban Livelihoods & Micro-Credit': 'নগৰীয়া জীৱিকা আৰু ক্ষুদ্ৰ ঋণ',
+      'Street Vendors & Urban Livelihoods': 'পথৰ ব্যৱসায়ী আৰু জীৱিকা'
     }
   };
   return map[lang]?.[category] || category;
@@ -625,19 +760,94 @@ export function localizeCategory(category, lang = 'en') {
 // Localize match label badges
 export function localizeMatchLabel(label, lang = 'en') {
   if (!label || lang === 'en') return label;
-  if (lang === 'hi') {
-    if (label.includes('Excellent Match')) return 'उत्कृष्ट मिलान (Excellent Match)';
-    if (label.includes('Good Match')) return 'अच्छा मिलान (Good Match)';
-    if (label.includes('Moderate')) return 'मध्यम मिलान (Moderate Match)';
-    if (label.includes('Ineligible') || label.includes('Mandatory')) return 'अपात्र (अनिवार्य नियम असफल)';
-    if (label.includes('Eligible')) return 'पात्र (Eligible)';
-  }
-  if (lang === 'bn') {
-    if (label.includes('Excellent Match')) return 'সেরা মিল (Excellent Match)';
-    if (label.includes('Good Match')) return 'ভাল মিল (Good Match)';
-    if (label.includes('Ineligible') || label.includes('Mandatory')) return 'অযোগ্য (বাধ্যতামূলক নিয়ম মেলেনি)';
-    if (label.includes('Eligible')) return 'উপযুক্ত (Eligible)';
-  }
+  const labelsMap = {
+    hi: {
+      excellent: 'उत्कृष्ट मिलान (Excellent Match)',
+      good: 'अच्छा मिलान (Good Match)',
+      moderate: 'मध्यम मिलान (Moderate Match)',
+      ineligible: 'अपात्र (अनिवार्य नियम असफल)',
+      eligible: 'पात्र (Eligible)'
+    },
+    bn: {
+      excellent: 'সেরা মিল (Excellent Match)',
+      good: 'ভাল মিল (Good Match)',
+      moderate: 'মাঝারি মিল (Moderate Match)',
+      ineligible: 'অযোগ্য (বাধ্যতামূলক নিয়ম মেলেনি)',
+      eligible: 'উপযুক্ত (Eligible)'
+    },
+    mr: {
+      excellent: 'उत्कृष्ट जुळणी (Excellent Match)',
+      good: 'चांगली जुळणी (Good Match)',
+      moderate: 'मध्यम जुळणी (Moderate Match)',
+      ineligible: 'अपात्र (अनिवार्य नियम अपूर्ण)',
+      eligible: 'पात्र (Eligible)'
+    },
+    te: {
+      excellent: 'అత్యుత్తమ సరిపోలిక (Excellent Match)',
+      good: 'మంచి సరిపోలిక (Good Match)',
+      moderate: 'మధ్యస్థ సరిపోలిక (Moderate Match)',
+      ineligible: 'అనర్హులు (తప్పనిసరి నిబంధన విఫలమైంది)',
+      eligible: 'అర్హులు (Eligible)'
+    },
+    ta: {
+      excellent: 'சிறந்த பொருத்தம் (Excellent Match)',
+      good: 'நல்ல பொருத்தம் (Good Match)',
+      moderate: 'மிதமான பொருத்தம் (Moderate Match)',
+      ineligible: 'தகுதியற்றது (கட்டாய விதி பொருந்தவில்லை)',
+      eligible: 'தகுதியானது (Eligible)'
+    },
+    gu: {
+      excellent: 'ઉત્કૃષ્ટ મેળ (Excellent Match)',
+      good: 'સારો મેળ (Good Match)',
+      moderate: 'મધ્યમ મેળ (Moderate Match)',
+      ineligible: 'અપાત્ર (ફરજિયાત નિયમ અપૂર્ણ)',
+      eligible: 'પાત્ર (Eligible)'
+    },
+    kn: {
+      excellent: 'ಅತ್ಯುತ್ತಮ ಹೊಂದಾಣಿಕೆ (Excellent Match)',
+      good: 'ಉತ್ತಮ ಹೊಂದಾಣಿಕೆ (Good Match)',
+      moderate: 'ಮಧ್ಯಮ ಹೊಂದಾಣಿಕೆ (Moderate Match)',
+      ineligible: 'ಅನರ್ಹರು (ಕಡ್ಡಾಯ ನಿಯಮ ವಿಫಲವಾಗಿದೆ)',
+      eligible: 'ಅರ್ಹರು (Eligible)'
+    },
+    ml: {
+      excellent: 'മികച്ച പൊരുത്തം (Excellent Match)',
+      good: 'നല്ല പൊരുത്തം (Good Match)',
+      moderate: 'മിതമായ പൊരുത്തം (Moderate Match)',
+      ineligible: 'അയോഗ്യൻ (നിർബന്ധിത നിബന്ധന പാലിച്ചില്ല)',
+      eligible: 'യോഗ്യൻ (Eligible)'
+    },
+    or: {
+      excellent: 'ଉତ୍କୃଷ୍ଟ ମେଳ (Excellent Match)',
+      good: 'ଭଲ ମେଳ (Good Match)',
+      moderate: 'ମଧ୍ୟମ ମେଳ (Moderate Match)',
+      ineligible: 'ଅଯୋଗ୍ୟ (ବାଧ୍ୟତାମୂଳକ ନିୟମ ଅସମ୍ପୂର୍ଣ୍ଣ)',
+      eligible: 'ଯୋଗ୍ୟ (Eligible)'
+    },
+    pa: {
+      excellent: 'ਸ਼ਾਨਦਾਰ ਮੈਚ (Excellent Match)',
+      good: 'ਚੰਗਾ ਮੈਚ (Good Match)',
+      moderate: 'ਦਰਮਿਆਨਾ ਮੈਚ (Moderate Match)',
+      ineligible: 'ਅਯੋਗ (ਲਾਜ਼ਮੀ ਸ਼ਰਤ ਅਧੂਰੀ)',
+      eligible: 'ਯੋਗ (Eligible)'
+    },
+    as: {
+      excellent: 'উৎকৃষ্ট মিল (Excellent Match)',
+      good: 'ভাল মিল (Good Match)',
+      moderate: 'মাজলীয়া মিল (Moderate Match)',
+      ineligible: 'অযোগ্য (বাধ্যতামূলক চৰ্ত অপূৰ্ণ)',
+      eligible: 'যোগ্য (Eligible)'
+    }
+  };
+
+  const lMap = labelsMap[lang];
+  if (!lMap) return label;
+
+  if (label.includes('Excellent Match')) return lMap.excellent;
+  if (label.includes('Good Match')) return lMap.good;
+  if (label.includes('Moderate')) return lMap.moderate;
+  if (label.includes('Ineligible') || label.includes('Mandatory')) return lMap.ineligible;
+  if (label.includes('Eligible')) return lMap.eligible;
   return label;
 }
 

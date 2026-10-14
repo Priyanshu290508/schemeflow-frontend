@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useProfile } from '../context/ProfileContext';
+import { LanguageSelector } from './LanguageSelector';
 import {
   Search,
   Bell,
@@ -120,36 +121,7 @@ export const Navbar = ({ activePage, setActivePage, searchTerm, setSearchTerm, s
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         
         {/* Language Flag Selector */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px',
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-pill)',
-          padding: '6px 12px',
-          fontSize: '12px',
-          fontWeight: 700,
-          color: 'var(--text-main)'
-        }}>
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--text-main)',
-              fontSize: '12px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              outline: 'none'
-            }}
-          >
-            <option value="en">EN 🇬🇧 English</option>
-            <option value="hi">HI 🇮🇳 हिन्दी</option>
-            <option value="bn">BN 🇮🇳 বাংলা</option>
-          </select>
-        </div>
+        <LanguageSelector />
 
         {/* Notification Bell */}
         <div

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 export const AccessibilityToolbar = () => {
-  const { lang, t } = useLanguage();
+  const { lang, t, getSpeechVoice } = useLanguage();
   const { theme, toggleTheme, isDark } = useTheme();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -140,23 +140,12 @@ export const AccessibilityToolbar = () => {
 
     const utterance = new SpeechSynthesisUtterance(cleanText);
 
-    // Pick appropriate voice
+    // Pick appropriate voice for all 12 Indian languages with fallback
     const voices = window.speechSynthesis.getVoices();
-    let selectedVoice = null;
-
-    if (lang === 'hi') {
-      utterance.lang = 'hi-IN';
-      selectedVoice = voices.find((v) => v.lang.includes('hi') || v.name.toLowerCase().includes('hindi'));
-    } else if (lang === 'bn') {
-      utterance.lang = 'bn-IN';
-      selectedVoice = voices.find((v) => v.lang.includes('bn') || v.name.toLowerCase().includes('bengali'));
-    } else {
-      utterance.lang = 'en-IN';
-      selectedVoice = voices.find((v) => v.lang.includes('en-IN') || v.lang.includes('en-GB') || v.lang.includes('en-US'));
-    }
-
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
+    const voiceMatch = typeof getSpeechVoice === 'function' ? getSpeechVoice(voices) : { langCode: 'en-IN', voice: null };
+    utterance.lang = voiceMatch.langCode || 'en-IN';
+    if (voiceMatch.voice) {
+      utterance.voice = voiceMatch.voice;
     }
 
     utterance.rate = 0.95;
@@ -238,11 +227,7 @@ export const AccessibilityToolbar = () => {
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
               <Volume2 size={16} color="#FFA530" className="animate-pulse" />
               <span>
-                {lang === 'hi'
-                  ? 'स्क्रीन को पढ़ा जा रहा है...'
-                  : lang === 'bn'
-                  ? 'স্ক্রিন পাঠ করা হচ্ছে...'
-                  : 'Reading Screen Content Aloud...'}
+                {t('readingScreen') || 'Reading Screen Content Aloud...'}
               </span>
             </span>
             <button

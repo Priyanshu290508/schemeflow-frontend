@@ -29,11 +29,56 @@ const SAMPLE_PROMPTS_BY_LANG = {
     "আমি পশ্চিমবঙ্গে দুগ্ধ খামার শুরু করার জন্য ২ লাখ টাকার ঋণ চাই",
     "আমি ২৮ বছর বয়সী মহিলা, কারিগরি টুলকিট অনুদান চাই",
     "খাদ্য প্রক্রিয়াকরণ ও বেকারির জন্য চলতি মূলধন ঋণ দরকার"
+  ],
+  mr: [
+    "मला डेअरी व्यवसाय सुरू करण्यासाठी ₹२ लाखांचे कर्ज हवे आहे",
+    "मी २८ वर्षांची महिला असून मला कारागीर टूलकिट अनुदान हवे आहे",
+    "मला अन्न प्रक्रिया व बेकरीसाठी खेळते भांडवल कर्ज हवे आहे"
+  ],
+  te: [
+    "డైరీ యూనిట్ ప్రారంభించడానికి నాకు ₹2 లక్షల రుణం కావాలి",
+    "నేను 28 ఏళ్ల మహిళను, చేతివృత్తుల టూల్‌కిట్ గ్రాంట్ కోసం చూస్తున్నాను",
+    "ఫుడ్ ప్రాసెసింగ్ యూనిట్ కోసం నాకు వర్కింగ్ క్యాపిటల్ లోన్ కావాలి"
+  ],
+  ta: [
+    "பால் பண்ணை தொடங்க எனக்கு ₹2 லட்சம் கடன் தேவை",
+    "நான் 28 வயது பெண், கைவினைஞர் கருவித்தொகுப்பு மானியம் தேடுகிறேன்",
+    "உணவு பதப்படுத்தும் பிரிவுக்கு நடைமுறை மூலதனக் கடன் தேவை"
+  ],
+  gu: [
+    "ડેરી શરૂ કરવા માટે મને ₹2 લાખની લોન જોઈએ છે",
+    "હું 28 વર્ષની મહિલા છું અને કારીગર ટૂલકિટ અનુદાન શોધી રહી છું",
+    "ફૂડ પ્રોસેસિંગ યુનિટ માટે મને વર્કિંગ કેપિટલ લોનની જરૂર છે"
+  ],
+  kn: [
+    "ಡೈರಿ ಘಟಕ ಪ್ರಾರಂಭಿಸಲು ನನಗೆ ₹2 ಲಕ್ಷ ಸಾಲ ಬೇಕು",
+    "ನಾನು 28 ವರ್ಷದ ಮಹಿಳೆ, ಕುಶಲಕರ್ಮಿ ಟೂಲ್‌ಕಿಟ್ ಅನುದಾನವನ್ನು ಹುಡುಕುತ್ತಿದ್ದೇನೆ",
+    "ಆಹಾರ ಸಂಸ್ಕರಣಾ ಘಟಕಕ್ಕಾಗಿ ನನಗೆ ಕಾರ್ಯನಿರತ ಬಂಡವಾಳ ಸಾಲದ ಅಗತ್ಯವಿದೆ"
+  ],
+  ml: [
+    "ഡയറി ഫാം ആരംഭിക്കാൻ എനിക്ക് ₹2 ലക്ഷം വായ്പ വേണം",
+    "ഞാൻ 28 വയസ്സുള്ള സ്ത്രീയാണ്, കരകൗശല ടൂൾകിറ്റ് ഗ്രാന്റ് വേണം",
+    "ഭക്ഷ്യ സംസ്കരണ യൂണിറ്റിനായി എനിക്ക് പ്രവർത്തന മൂലധന വായ്പ ആവശ്യമാണ്"
+  ],
+  or: [
+    "ଡାଏରୀ ୟୁନିଟ୍ ଆରମ୍ଭ କରିବା ପାଇଁ ମୋତେ ₹୨ ଲକ୍ଷ ଋଣ ଦରକାର",
+    "ମୁଁ ଜଣେ ୨୮ ବର୍ଷ ବୟସ୍କା ମହିଳା, କାରିଗର ଟୁଲକିଟ୍ ଅନୁଦାନ ଖୋଜୁଛି",
+    "ଖାଦ୍ୟ ପ୍ରକ୍ରିୟାକରଣ ୟୁନିଟ୍ ପାଇଁ କାର୍ଯ୍ୟକାରୀ ପୁଞ୍ଜି ଋଣ ଆବଶ୍ୟକ"
+  ],
+  pa: [
+    "ਡੇਅਰੀ ਯੂਨਿਟ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਮੈਨੂੰ ₹2 ਲੱਖ ਦਾ ਕਰਜ਼ਾ ਚਾਹੀਦਾ ਹੈ",
+    "ਮੈਂ 28 ਸਾਲਾ ਔਰਤ ਹਾਂ ਅਤੇ ਕਾਰੀਗਰ ਟੂਲਕਿੱਟ ਗ੍ਰਾਂਟ ਚਾਹੁੰਦੀ ਹਾਂ",
+    "ਫੂਡ ਪ੍ਰੋਸੈਸਿੰਗ ਯੂਨਿਟ ਲਈ ਮੈਨੂੰ ਵਰਕਿੰਗ ਕੈਪੀਟਲ ਲੋਨ ਚਾਹੀਦਾ ਹੈ"
+  ],
+  as: [
+    "গাখীৰ ফাৰ্ম আৰম্ভ কৰিবলৈ মোক ₹২ লাখৰ ঋণ লাগে",
+    "মই এগৰাকী ২৮ বছৰীয়া মহিলা, কাৰিকৰী টুলকিট অনুদান বিচাৰিছোঁ",
+    "খাদ্য প্ৰক্ৰিয়াকৰণ ইউনিটৰ বাবে কাৰ্যকৰী মূলধন ঋণৰ প্ৰয়োজন"
   ]
 };
 
 export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
-  const { lang, t } = useLanguage();
+  const { lang, t, currentLanguageConfig } = useLanguage();
   const { profile = {}, updateProfile } = useProfile();
 
   const [messages, setMessages] = useState([]);
@@ -69,10 +114,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
 
     try {
       const recognition = new SpeechRecognition();
-      if (lang === 'hi') recognition.lang = 'hi-IN';
-      else if (lang === 'bn') recognition.lang = 'bn-IN';
-      else recognition.lang = 'en-IN';
-      
+      recognition.lang = currentLanguageConfig?.speechCode || 'en-IN';
       recognition.continuous = false;
       recognition.interimResults = false;
 
@@ -104,7 +146,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
     setLoading(true);
 
     try {
-      const res = await api.sendAssistantMessage(userText, profile);
+      const res = await api.sendAssistantMessage(userText, profile, lang);
 
       if (res.extracted_facts && res.extracted_facts.length > 0) {
         setPendingFacts(res.extracted_facts);
@@ -126,9 +168,7 @@ export const AssistantPage = ({ setActivePage, setSelectedSchemeId }) => {
         ...prev,
         {
           sender: 'assistant',
-          text: lang === 'hi' 
-            ? "हम अस्थायी रूप से योजना सिफारिशें लोड करने में असमर्थ हैं। कृपया पुनः प्रयास करें।"
-            : "We're temporarily unable to load scheme recommendations. Please try again.",
+          text: t('recommendationsError') || "We're temporarily unable to load scheme recommendations. Please try again.",
           recommendations: []
         }
       ]);

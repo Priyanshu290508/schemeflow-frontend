@@ -1,8 +1,13 @@
 // SchemeFlow API Client Service
 // Automatically adapts between localhost, local network Wi-Fi (phone access), and production
 const getApiBase = () => {
-  if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL;
+  let base = import.meta.env.VITE_API_BASE_URL;
+  if (base) {
+    base = base.replace(/\/+$/, '');
+    if (!base.endsWith('/api')) {
+      base = `${base}/api`;
+    }
+    return base;
   }
   if (typeof window !== 'undefined') {
     const host = window.location.hostname;
@@ -59,13 +64,14 @@ export const api = {
   },
 
   // Assistant conversational message endpoint
-  async sendAssistantMessage(message, currentProfile) {
+  async sendAssistantMessage(message, currentProfile, language = 'en') {
     const res = await fetch(`${API_BASE}/assistant/message`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message,
-        current_profile: currentProfile
+        current_profile: currentProfile,
+        language
       })
     });
     if (!res.ok) throw new Error('Failed to send assistant message');

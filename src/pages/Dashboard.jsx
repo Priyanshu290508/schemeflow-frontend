@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 
 export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' }) => {
-  const { lang, t } = useLanguage();
+  const { lang, t, getSpeechVoice } = useLanguage();
   const { profile = {}, recommendations = [], loadingRecommendations, refreshRecommendations, savedSchemeIds = [], toggleSaveScheme } = useProfile();
   
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -101,9 +101,12 @@ export const Dashboard = ({ setActivePage, setSelectedSchemeId, searchTerm = '' 
     const whyText = Array.isArray(rec.why_this_scheme) ? rec.why_this_scheme.slice(0, 2).join('. ') : '';
     const textToSpeak = `${rec.scheme_name || rec.name}. ${rec.summary || ''}. ${whyText}.`;
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    if (lang === 'hi') utterance.lang = 'hi-IN';
-    else if (lang === 'bn') utterance.lang = 'bn-IN';
-    else utterance.lang = 'en-IN';
+    const voices = window.speechSynthesis.getVoices();
+    const voiceMatch = typeof getSpeechVoice === 'function' ? getSpeechVoice(voices) : { langCode: 'en-IN', voice: null };
+    utterance.lang = voiceMatch.langCode || 'en-IN';
+    if (voiceMatch.voice) {
+      utterance.voice = voiceMatch.voice;
+    }
     utterance.rate = 0.95;
 
     utterance.onend = () => setActivePlayingId(null);
